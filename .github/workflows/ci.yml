@@ -27,8 +27,6 @@ jobs:
         shell: pwsh
     env:
       RUSTUP_TOOLCHAIN: 1.90.0
-      PI_GHOST_CACHE_DIR: ${{ runner.temp }}/ghost-models
-      PI_GHOST_STATE_DIR: ${{ runner.temp }}/ghost-state
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
@@ -46,7 +44,11 @@ jobs:
           cargo clippy --manifest-path native/Cargo.toml --locked --all-targets -- -D warnings
           cargo fmt --manifest-path native/Cargo.toml --all --check
           node scripts/build-native.mjs
-      - run: |
+      - name: Verify model, package and installation
+        env:
+          PI_GHOST_CACHE_DIR: ${{ runner.temp }}/ghost-models
+          PI_GHOST_STATE_DIR: ${{ runner.temp }}/ghost-state
+        run: |
           $PSNativeCommandUseErrorActionPreference = $true
           $ErrorActionPreference = 'Stop'
           $env:PI_GHOST_NATIVE_PATH = Join-Path $PWD 'artifacts/ghost-native.node'
