@@ -1,0 +1,185 @@
+TAP version 13
+# Subtest: one active plus newest queued, duplicate frames do not duplicate work
+ok 1 - one active plus newest queued, duplicate frames do not duplicate work
+  ---
+  duration_ms: 3.4663
+  type: 'test'
+  ...
+# Subtest: Escape tombstone, reset, sessions and dispose reject late results
+ok 2 - Escape tombstone, reset, sessions and dispose reject late results
+  ---
+  duration_ms: 0.6865
+  type: 'test'
+  ...
+# Subtest: projection and divergence feedback once; reject malformed outputs
+ok 3 - projection and divergence feedback once; reject malformed outputs
+  ---
+  duration_ms: 1.3364
+  type: 'test'
+  ...
+# Subtest: startup failure suspends retries and stale errors cannot touch disposed UI
+not ok 4 - startup failure suspends retries and stale errors cannot touch disposed UI
+  ---
+  duration_ms: 0.9038
+  type: 'test'
+  location: 'C:\\Users\\<user>\\Documents\\Codex\\2026-10-21\\continuing-from-branch-termux-chatgpt-conversation\\work\\pi-ghost-autocomplete\\test\\controller.test.ts:52:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+
+    4 !== 1
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 4
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/<user>/Documents/Codex/2026-10-21/continuing-from-branch-termux-chatgpt-conversation/work/pi-ghost-autocomplete/test/controller.test.ts:58:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: newest snapshot returning to active request clears obsolete queued work
+not ok 5 - newest snapshot returning to active request clears obsolete queued work
+  ---
+  duration_ms: 1.0311
+  type: 'test'
+  location: 'C:\\Users\\<user>\\Documents\\Codex\\2026-10-21\\continuing-from-branch-termux-chatgpt-conversation\\work\\pi-ghost-autocomplete\\test\\controller.test.ts:64:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+
+      [
+        'he',
+    +   'hel'
+      ]
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: 'he'
+  actual:
+    0: 'he'
+    1: 'hel'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/<user>/Documents/Codex/2026-10-21/continuing-from-branch-termux-chatgpt-conversation/work/pi-ghost-autocomplete/test/controller.test.ts:68:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: real CustomEditor render is pure and Enter excludes ghost
+ok 6 - real CustomEditor render is pure and Enter excludes ghost
+  ---
+  duration_ms: 7.3947
+  type: 'test'
+  ...
+# Subtest: accept "\\t" is atomic, no space
+ok 7 - accept "\\t" is atomic, no space
+  ---
+  duration_ms: 0.5174
+  type: 'test'
+  ...
+# Subtest: accept "\\u001b[C" is atomic, no space
+ok 8 - accept "\\u001b[C" is atomic, no space
+  ---
+  duration_ms: 0.2965
+  type: 'test'
+  ...
+# Subtest: Escape dismisses once then delegates
+ok 9 - Escape dismisses once then delegates
+  ---
+  duration_ms: 0.3374
+  type: 'test'
+  ...
+# Subtest: extension shortcuts win and invisible hints cannot be accepted
+ok 10 - extension shortcuts win and invisible hints cannot be accepted
+  ---
+  duration_ms: 0.7437
+  type: 'test'
+  ...
+# Subtest: slash and path contexts suppress even pending completion
+ok 11 - slash and path contexts suppress even pending completion
+  ---
+  duration_ms: 0.5984
+  type: 'test'
+  ...
+# Subtest: delayed slash/file completion retains Tab and Escape semantics
+ok 12 - delayed slash/file completion retains Tab and Escape semantics
+  ---
+  duration_ms: 3.8391
+  type: 'test'
+  ...
+# Subtest: configured acceptance, external mutation, paste and history remain host actions
+ok 13 - configured acceptance, external mutation, paste and history remain host actions
+  ---
+  duration_ms: 0.8713
+  type: 'test'
+  ...
+# Subtest: Unicode, scrolling, wrap and resize preserve real text and cursor tokens
+ok 14 - Unicode, scrolling, wrap and resize preserve real text and cursor tokens
+  ---
+  duration_ms: 15.3995
+  type: 'test'
+  ...
+# Subtest: app action and clipboard bindings keep precedence when remapped onto ghost keys
+not ok 15 - app action and clipboard bindings keep precedence when remapped onto ghost keys
+  ---
+  duration_ms: 0.9827
+  type: 'test'
+  location: 'C:\\Users\\<user>\\Documents\\Codex\\2026-10-21\\continuing-from-branch-termux-chatgpt-conversation\\work\\pi-ghost-autocomplete\\test\\ghost-text-editor.test.ts:124:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+
+    0 !== 1
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/<user>/Documents/Codex/2026-10-21/continuing-from-branch-termux-chatgpt-conversation/work/pi-ghost-autocomplete/test/ghost-text-editor.test.ts:131:12)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: split bracketed paste buffers control keys without accepting ghost
+not ok 16 - split bracketed paste buffers control keys without accepting ghost
+  ---
+  duration_ms: 0.5057
+  type: 'test'
+  location: 'C:\\Users\\<user>\\Documents\\Codex\\2026-10-21\\continuing-from-branch-termux-chatgpt-conversation\\work\\pi-ghost-autocomplete\\test\\ghost-text-editor.test.ts:134:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+
+    'hello' !== 'hel\t'
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'hel\t'
+  actual: 'hello'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/<user>/Documents/Codex/2026-10-21/continuing-from-branch-termux-chatgpt-conversation/work/pi-ghost-autocomplete/test/ghost-text-editor.test.ts:137:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 12
+# fail 4
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 850.514

@@ -1,0 +1,11 @@
+node_modules/
+native/target/
+artifacts/
+.superpowers/
+*.log
+*.node
+*.gguf
+*.part
+.env
+.env.*
+!.env.example

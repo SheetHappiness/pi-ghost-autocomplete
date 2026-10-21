@@ -1,0 +1,19 @@
+[package]
+name = "ghost-native"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+ghost-predictor = { path = "../predictor" }
+anyhow.workspace = true
+flume = "=0.12.0"
+napi = { version = "=3.14.2", default-features = false, features = ["napi10", "tokio_rt", "dyn-symbols"] }
+napi-derive = "=3.6.12"
+tokio = { version = "=1.53.1", features = ["sync", "rt", "macros"] }
+
+[build-dependencies]
+napi-build = "=2.6.0"

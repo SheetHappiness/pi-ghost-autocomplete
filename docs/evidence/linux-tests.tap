@@ -1,0 +1,248 @@
+
+> pi-ghost-autocomplete@0.1.0 test
+> node --experimental-strip-types --test test/*.test.ts
+
+TAP version 13
+# Subtest: one active plus newest queued, duplicate frames do not duplicate work
+ok 1 - one active plus newest queued, duplicate frames do not duplicate work
+  ---
+  duration_ms: 5.150975
+  type: 'test'
+  ...
+# Subtest: Escape tombstone, reset, sessions and dispose reject late results
+ok 2 - Escape tombstone, reset, sessions and dispose reject late results
+  ---
+  duration_ms: 2.001564
+  type: 'test'
+  ...
+# Subtest: projection and divergence feedback once; reject malformed outputs
+ok 3 - projection and divergence feedback once; reject malformed outputs
+  ---
+  duration_ms: 2.643257
+  type: 'test'
+  ...
+# Subtest: startup failure suspends retries and stale errors cannot touch disposed UI
+ok 4 - startup failure suspends retries and stale errors cannot touch disposed UI
+  ---
+  duration_ms: 1.873652
+  type: 'test'
+  ...
+# Subtest: newest snapshot returning to active request clears obsolete queued work
+ok 5 - newest snapshot returning to active request clears obsolete queued work
+  ---
+  duration_ms: 0.503261
+  type: 'test'
+  ...
+# Subtest: lazy startup is single flight, observes only a ready backend and closes once
+ok 6 - lazy startup is single flight, observes only a ready backend and closes once
+  ---
+  duration_ms: 2.107003
+  type: 'test'
+  ...
+# Subtest: startup failure is sticky until an explicit new runtime
+ok 7 - startup failure is sticky until an explicit new runtime
+  ---
+  duration_ms: 0.319404
+  type: 'test'
+  ...
+# Subtest: shutdown during download aborts and cannot create native engine
+ok 8 - shutdown during download aborts and cannot create native engine
+  ---
+  duration_ms: 0.390739
+  type: 'test'
+  ...
+# Subtest: submissions during preparation flush once, in order, without starting preparation themselves
+ok 9 - submissions during preparation flush once, in order, without starting preparation themselves
+  ---
+  duration_ms: 0.366412
+  type: 'test'
+  ...
+# Subtest: real CustomEditor render is pure and Enter excludes ghost
+ok 10 - real CustomEditor render is pure and Enter excludes ghost
+  ---
+  duration_ms: 6.675421
+  type: 'test'
+  ...
+# Subtest: accept "\\t" is atomic, no space
+ok 11 - accept "\\t" is atomic, no space
+  ---
+  duration_ms: 0.531896
+  type: 'test'
+  ...
+# Subtest: accept "\\u001b[C" is atomic, no space
+ok 12 - accept "\\u001b[C" is atomic, no space
+  ---
+  duration_ms: 0.292012
+  type: 'test'
+  ...
+# Subtest: Escape dismisses once then delegates
+ok 13 - Escape dismisses once then delegates
+  ---
+  duration_ms: 0.324434
+  type: 'test'
+  ...
+# Subtest: extension shortcuts win and invisible hints cannot be accepted
+ok 14 - extension shortcuts win and invisible hints cannot be accepted
+  ---
+  duration_ms: 0.762992
+  type: 'test'
+  ...
+# Subtest: slash and path contexts suppress even pending completion
+ok 15 - slash and path contexts suppress even pending completion
+  ---
+  duration_ms: 0.630121
+  type: 'test'
+  ...
+# Subtest: delayed slash/file completion retains Tab and Escape semantics
+ok 16 - delayed slash/file completion retains Tab and Escape semantics
+  ---
+  duration_ms: 4.234827
+  type: 'test'
+  ...
+# Subtest: configured acceptance, external mutation, paste and history remain host actions
+ok 17 - configured acceptance, external mutation, paste and history remain host actions
+  ---
+  duration_ms: 0.904921
+  type: 'test'
+  ...
+# Subtest: Unicode, scrolling, wrap and resize preserve real text and cursor tokens
+ok 18 - Unicode, scrolling, wrap and resize preserve real text and cursor tokens
+  ---
+  duration_ms: 15.877608
+  type: 'test'
+  ...
+# Subtest: app action and clipboard bindings keep precedence when remapped onto ghost keys
+ok 19 - app action and clipboard bindings keep precedence when remapped onto ghost keys
+  ---
+  duration_ms: 0.706556
+  type: 'test'
+  ...
+# Subtest: split bracketed paste buffers control keys without accepting ghost
+ok 20 - split bracketed paste buffers control keys without accepting ghost
+  ---
+  duration_ms: 0.540113
+  type: 'test'
+  ...
+# Subtest: actual Pi factory wiring preserves host callbacks and delegated actions
+ok 21 - actual Pi factory wiring preserves host callbacks and delegated actions
+  ---
+  duration_ms: 7.576796
+  type: 'test'
+  ...
+# Subtest: host extension loader and registered handlers stay inert in RPC, switch and shut down
+ok 22 - host extension loader and registered handlers stay inert in RPC, switch and shut down
+  ---
+  duration_ms: 217.55777
+  type: 'test'
+  ...
+# Subtest: replacing the custom editor aborts preparation and cannot overwrite replacement status
+ok 23 - replacing the custom editor aborts preparation and cannot overwrite replacement status
+  ---
+  duration_ms: 355.087005
+  type: 'test'
+  ...
+# Subtest: real verified model completes, persists, reopens and rejects state version mismatch
+ok 24 - real verified model completes, persists, reopens and rejects state version mismatch
+  ---
+  duration_ms: 3496.52289
+  type: 'test'
+  ...
+# Subtest: platform binary allowlist and unsupported targets
+ok 25 - platform binary allowlist and unsupported targets
+  ---
+  duration_ms: 3.803786
+  type: 'test'
+  ...
+# Subtest: missing binary is actionable
+ok 26 - missing binary is actionable
+  ---
+  duration_ms: 0.78266
+  type: 'test'
+  ...
+# Subtest: actual addon startup error, repeated close, reject after close
+ok 27 - actual addon startup error, repeated close, reject after close
+  ---
+  duration_ms: 5.649962
+  type: 'test'
+  ...
+# Subtest: Pi package has exact platform deps, no runtime host or install hooks
+ok 28 - Pi package has exact platform deps, no runtime host or install hooks
+  ---
+  duration_ms: 2.292224
+  type: 'test'
+  ...
+# Subtest: redistributed source and binary attribution exists
+ok 29 - redistributed source and binary attribution exists
+  ---
+  duration_ms: 0.374828
+  type: 'test'
+  ...
+# Subtest: prose at logical end only, Unicode and two letter minimum
+ok 30 - prose at logical end only, Unicode and two letter minimum
+  ---
+  duration_ms: 3.879728
+  type: 'test'
+  ...
+# Subtest: commands, paths, code, identifiers and paste markers are excluded
+ok 31 - commands, paths, code, identifiers and paste markers are excluded
+  ---
+  duration_ms: 0.45476
+  type: 'test'
+  ...
+# Subtest: size caps and surrogate safe context tail
+ok 32 - size caps and surrogate safe context tail
+  ---
+  duration_ms: 1.2499
+  type: 'test'
+  ...
+# Subtest: decorates the cursor row without changing width or marker
+ok 33 - decorates the cursor row without changing width or marker
+  ---
+  duration_ms: 1.927615
+  type: 'test'
+  ...
+# Subtest: production manifest stays pinned to OMP hashes and revisions
+ok 34 - production manifest stays pinned to OMP hashes and revisions
+  ---
+  duration_ms: 0.517619
+  type: 'test'
+  ...
+# Subtest: verified install, concurrency, warm cache revalidation, repair and cleanup
+ok 35 - verified install, concurrency, warm cache revalidation, repair and cleanup
+  ---
+  duration_ms: 77.806946
+  type: 'test'
+  ...
+# Subtest: HTTP errors and cancellation do not create ready models
+ok 36 - HTTP errors and cancellation do not create ready models
+  ---
+  duration_ms: 5.258723
+  type: 'test'
+  ...
+# Subtest: interrupted streaming and equal-size wrong digest leave no usable model
+ok 37 - interrupted streaming and equal-size wrong digest leave no usable model
+  ---
+  duration_ms: 13.694915
+  type: 'test'
+  ...
+# Subtest: independent processes recover a dead owner lock and install only once
+ok 38 - independent processes recover a dead owner lock and install only once
+  ---
+  duration_ms: 204.457838
+  type: 'test'
+  ...
+# Subtest: Windows locked cache replacement fails cleanly and succeeds after unlock
+ok 39 - Windows locked cache replacement fails cleanly and succeeds after unlock # SKIP
+  ---
+  duration_ms: 0.102263
+  type: 'test'
+  ...
+1..39
+# tests 39
+# suites 0
+# pass 38
+# fail 0
+# cancelled 0
+# skipped 1
+# todo 0
+# duration_ms 3614.905535

@@ -1,0 +1,49 @@
+# Execution ledger
+
+Plan: outputs/2026-10-21-pi-ghost-autocomplete-plan.md
+
+User approved implementation on 2026-10-21. No commits or publication authorized.
+Ruling: new independent package directory is the isolated workspace; no Pi worktree or core edits required.
+Ruling: retain ledger without helper scripts requiring a pre-existing commit; new repository has no commits.
+Preflight interfaces: editor consumes query/controller; controller consumes lazy Predictor; lazy Predictor consumes verified weights/native loader; package includes loader-selected platform artifact. Contracts match section 5.
+
+Task 1: public-API gate passed. Testing published Pi 1.3.0 matching fresh source reference 02726086d11c2911aa872959e308b90d69182392.
+
+Task 1 RED: render assertion, Tab/Right text assertions and Escape dispatch failed on incomplete stubs. GREEN: actual Pi CustomEditor tests pass, including delayed menus, configured bindings, external insertion, paste, history, Unicode and scrolling. Ruling: host wordWrapLine infinitely recurses for a two-cell grapheme at layout width 1; plugin renders a blank nonaccepting frame at terminal widths 1/2. No host edit. A singleton forced file result immediately applies in Pi; delayed menu fixture now uses two items.
+Task 2 RED: missing query and scheduler assertions. GREEN: gates, surrogate-safe tail, one active/newest queued, stale session/Escape/reset/dispose, projection and malformed suffix tests pass. 16 TS tests and typecheck pass.
+Task 3 RED: two Rust contract assertions failed against success-only stub. GREEN: CPU extraction passes 23 original unit tests plus 2 contract tests on Windows x64. Rust 1.90.0 installed locally without modifying PATH. xwin 0.10.0 SHA256 96e83665ef5c1406aabd0be603a8d08e67e604f36fda630b6807ee948a614e26 provided required CRT/SDK libraries; optional header version symlink failed without Windows privilege, but Rust linking and test execution succeeded with rust-lld and the extracted libraries. No global SDK installation. CPU-only dependencies: anyhow 1.0.100/rayon 1.11.0/regex 1.12.2/serde 1.0.228/serde_json 1.0.145; final transitive versions in Cargo.lock.
+
+Task 4: minimal registry napi 3.14.2/napi-derive 3.6.12/napi-build 2.6.0 compiled without OMP vendor patches. Loader allowlist/actionable-missing-binary tests ran RED then GREEN. Worker backlog test ran RED (unbounded memory) then GREEN (64 slots, nonblocking try_send). Added serialization/order/persist-once/startup-error/dropped-reply/repeated-close tests. Native lifecycle adaptation preceded those supplemental worker tests; that portion was not fully tests-first. Actual Node startup failure, close twice, reject after close passed on Windows and Linux. Final Rust suite: 28 tests (23 original + 2 contract + 3 worker). Windows clippy with -D warnings passes.
+
+Task 5 RED: missing download/rejection behavior. GREEN: local HTTP correctness, same-size wrong SHA256, wrong size, abort before start, interrupted streaming, HTTP error, warm corruption repair, six independent processes recovering a dead-owner lock with one download, and Windows locked cache replacement failure/retry all pass. Real three pinned assets downloaded to task workspace: all exact expected sizes and SHA256 matched. Pinned model cards declare Apache-2.0; their revision file lists contain no separate LICENSE/NOTICE files. Apache text, original OMP MIT, 67 crate license inventories/artifacts preserved, including napi repository licenses pinned to crate VCS revisions.
+
+Task 6 RED: lazy single-flight, failure retry, cancellation, observation-during-download. GREEN: public custom editor installed by actual Pi loader; actual InteractiveMode factory method preserves host callbacks. RPC stays inert. Live observations are bounded to 64 prompts/20,000 UTF-16 units before readiness, never initiate download, flush in order once, and clear on close. Runtime has no full-history bootstrap.
+
+Task 7 RED: exact optional deps/notices absent. GREEN: parent and Windows/Linux platform tarballs assembled and inspected; no model/private state/core packages/install hooks. Source has native-runner CI for Windows x64/Linux x64 plus experimental Linux ARM64/macOS ARM64. CI is configured, not remotely executed (no push/publication authorized). Scope @sheethappiness remains provisional until registry ownership is confirmed.
+
+Task 8 RED: actual installed tarball lacked Rust inventory; repacked after full license collection. GREEN: actual Pi CLI local-registry npm install/list/discovery/native resolution/remove and local-path install/remove passed on Windows x64 and native Linux x64 under WSL. Neither route installs duplicate host peers. Isolated temporary profiles only, except one terminal launch with a mistaken relative profile path: ordinary Pi profile opened, then closed immediately without entering input; corrected absolute profile used for all interactive tests. No public npm/git install claim.
+
+Real Windows model: ready/complete/observe/feedback/persist/close/reopen passed; corrupt persisted state version 999 is rejected. Examples: hello + wor -> ld, can you refactor the + func -> tion. Exploratory completion samples on this machine: 39–119 ms, not a benchmark guarantee; RSS was sampled after close and is not peak model residency. Same real-model integration test passed natively on Linux. Linux binary references up to GLIBC_2.34; tested runtime glibc 2.44, not an oldest-supported distro certification.
+
+Windows native ConPTY launched from PowerShell, actual installed parent+platform packages, no dev binary override: dim `hello wor` + `ld` visible; Tab produced hello world; Right produced can you refactor the function; Escape removed ghost while leaving actual text; slash /gh menu selected ghost and /ghost status reported ready; @sam file menu selected @sample-file.txt. Enter while no provider key produced the host's local missing-key error; pure committed-text behavior is additionally asserted against the actual editor callback. No model-service requests were made. Terminal resize/visual QA in a separate human-operated GUI remains unverified; unit cases cover widths, Unicode and scrolling. Ordinary paste and split bracketed paste are compared with the host editor.
+
+Follow-up display rename: the package entry point is `src/pi-ghost-autocomplete.ts` so Pi's compact startup extension list uses a recognizable name. The refreshed parent tarball was installed into the persistent Windows agent profile; Pi 1.4.0 startup displayed `pi-ghost-autocomplete.ts` and `ghost: on`.
+
+Final review: one independent fresh reviewer, four Important findings. Regraded replacement lifecycle and obsolete queued request as Important too; no Critical findings or deferred cosmetic minors. Fix pass:
+- Startup failure loop RED -> suspend until explicit retry, one notification.
+- Configured app/clipboard/history precedence RED -> delegate before ghost interception.
+- Late disposed/generation errors RED -> suppress stale completion/feedback/status effects.
+- Observations during preparation RED -> bounded session queue, flush once.
+- Editor replacement RED -> ownership checks and 250 ms unref'd disposal check abort/close old runtime; no replacement status overwrite.
+- Returning to active snapshot RED -> clear obsolete queue and validate current snapshot before dispatch.
+- Split paste RED -> track public paste delimiters, buffer keys through host; host expands pasted Tab to four spaces.
+
+Remaining release gates: remote native CI has not run; Linux ARM64/macOS ARM64 have no native build evidence; older glibc runtime and human-operated GUI resize/offline visual checks remain unverified. This is a locally tested release candidate, not an assertion that every approved plan release gate is complete. No commit, push, publication or Pi core modification.
+
+Final verification, 2026-10-22: Windows 39/39 TS tests including actual native/model and locked-file cases; Linux 38/38 applicable TS tests, one Windows-only case skipped. Rust 28/28 on both platforms, clippy -D warnings and rustfmt check passed. Typecheck and pinned Prettier 3.6.2 check passed. Final parent/platform tarballs repeated actual Pi registry-fixture installation on both platforms. The local tarball installer plus printed registration command was additionally exercised in a separate isolated Windows profile. Windows native Ctrl+Z restored `hello wor` after accepting `hello world`. Reference checkouts remain clean at their exact pinned commits. Code is left uncommitted in a new standalone repository; there is no upstream base branch to merge into.
+
+Startup preload follow-up, 2026-10-22: interactive session_start now calls runtime.ready() in the background after acquiring the editor. RED: both startup-without-input cases failed with zero preparations. GREEN: 39 TS tests passed, 2 opt-in tests skipped; typecheck and package inspection passed. Refreshed parent archive installed into the persistent Windows profile. Installed-package integration with the real cached model reached ghost: on in 227 ms with zero input events; preparation failure and editor replacement/shutdown remain covered. No native code changed.
+
+Footer follow-up: removed visible ghost status writes during startup, readiness and failure; /ghost status retains model state. Regression tests first failed on visible footer entries, then passed. 39 tests passed, 2 opt-in skipped; typecheck and package inspection passed. Updated parent archive installed in the persistent Windows profile.
+
+GitHub source preparation, 2026-10-22: README now documents building and installing from source; npm native packages remain unpublished. Evidence logs mask the local Windows account name. Full Windows TS suite with native/model opt-ins: 41/41; Rust: 28/28; clippy, rustfmt, typecheck, package inspection and actual Pi installation smoke passed. Local archives remain excluded from Git; CI builds package artifacts.

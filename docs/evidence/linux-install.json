@@ -1,0 +1,10 @@
+{
+  "target": "linux-x64-gnu",
+  "installed": "Installing npm:pi-ghost-autocomplete@0.1.0...\n\nadded 2 packages in 347ms\nInstalled npm:pi-ghost-autocomplete@0.1.0\n",
+  "listed": "User packages:\n  npm:pi-ghost-autocomplete@0.1.0\n    /tmp/pi-ghost-install-jsZz5n/agent/npm/node_modules/pi-ghost-autocomplete\n",
+  "extensionPaths": [
+    "/tmp/pi-ghost-install-jsZz5n/agent/npm/node_modules/pi-ghost-autocomplete/src/extension.ts"
+  ],
+  "nativePath": "/tmp/pi-ghost-install-jsZz5n/agent/npm/node_modules/@sheethappiness/pi-ghost-autocomplete-linux-x64-gnu/ghost-native.node",
+  "source": "local fixture registry; not public npm"
+}

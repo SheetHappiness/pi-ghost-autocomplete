@@ -1,0 +1,59 @@
+   Compiling ghost-native v0.1.0 (/mnt/c/Users/<user>/Documents/Codex/2026-10-21/continuing-from-branch-termux-chatgpt-conversation/work/pi-ghost-autocomplete/native/addon)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.09s
+     Running unittests src/lib.rs (/tmp/pi-ghost-tools-20261021/target/debug/deps/ghost_native-2e16c9dfc245b9e5)
+
+running 3 tests
+test predict::tests::backlog_is_bounded_without_blocking_the_submitter ... ok
+test predict::tests::close_drains_serialized_operations_and_persists_once ... ok
+test predict::tests::startup_error_and_dropped_reply_do_not_leak_thread ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (/tmp/pi-ghost-tools-20261021/target/debug/deps/ghost_predictor-c47c4b6056906745)
+
+running 23 tests
+test prose::tests::masking_preserves_byte_offsets ... ok
+test prose::tests::code_and_markup_are_not_prose ... ok
+test prose::tests::prose_fraction_stays_aligned_after_masked_multibyte_spans ... ok
+test smollm::gguf::tests::f16_widening_is_exact ... ok
+test smollm::search::tests::a_token_spelling_prefix_then_boundary_counts_as_finished ... ok
+test smollm::search::tests::a_likely_finished_word_gets_low_confidence ... ok
+test smollm::search::tests::expansions_respect_the_budget ... ok
+test smollm::search::tests::inconsistent_prefix_yields_nothing ... ok
+test smollm::search::tests::completions_spell_the_prefix_through_any_split ... ok
+test smollm::tests::context_tail_cuts_forward_to_a_whitespace ... ok
+test smollm::config::tests::q_and_k_rows_come_back_in_checkpoint_order ... ok
+test smollm::config::tests::tensors_of_the_wrong_type_or_shape_are_rejected ... ok
+test smollm::tests::typed_past_resets_on_a_new_word ... ok
+test smollm::tests::healing_cuts_at_the_token_holding_the_word_start ... ok
+test smollm::tokenizer::tests::merges_follow_rank_and_offsets_cover_text ... ok
+test smollm::tokenizer::tests::whitespace_lookahead_and_digits ... ok
+test smollm::tests::memory_grows_by_appending_and_trims_to_the_newest ... ok
+test smollm::tokenizer::tests::special_tokens_are_plain_text_and_have_no_text ... ok
+test smollm::cpu::tests::overlong_sequences_fail_and_empty_the_cache ... ok
+test smollm::tests::context_window_start_is_stable_while_typing ... ok
+test smollm::cpu::tests::worker_count_does_not_change_the_result ... ok
+test smollm::cpu::tests::cached_and_truncated_forwards_match_a_full_pass ... ok
+test smollm::session::tests::cpu_rows_match_fresh_scoring_across_words_branches_and_heads ... ok
+
+test result: ok. 23 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.13s
+
+     Running tests/contract.rs (/tmp/pi-ghost-tools-20261021/target/debug/deps/contract-f607d9bd3a63b646)
+
+running 2 tests
+test model_directory_is_required ... ok
+test missing_or_corrupt_assets_fail_closed ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests ghost_native
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests ghost_predictor
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s

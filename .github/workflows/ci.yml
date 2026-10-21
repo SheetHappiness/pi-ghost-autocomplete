@@ -1,0 +1,63 @@
+name: native-package
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  native:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: windows-2022
+            target: win32-x64-msvc
+            experimental: false
+          - runner: ubuntu-22.04
+            target: linux-x64-gnu
+            experimental: false
+          - runner: ubuntu-24.04-arm
+            target: linux-arm64-gnu
+            experimental: true
+          - runner: macos-15
+            target: darwin-arm64
+            experimental: true
+    runs-on: ${{ matrix.runner }}
+    continue-on-error: ${{ matrix.experimental }}
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      RUSTUP_TOOLCHAIN: 1.90.0
+      PI_GHOST_CACHE_DIR: ${{ runner.temp }}/ghost-models
+      PI_GHOST_STATE_DIR: ${{ runner.temp }}/ghost-state
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22.23.3
+          cache: npm
+      - run: |
+          $PSNativeCommandUseErrorActionPreference = $true
+          $ErrorActionPreference = 'Stop'
+          rustup toolchain install 1.90.0 --profile minimal --component clippy,rustfmt
+          npm ci --ignore-scripts
+          npm test
+          npm run check
+          cargo test --manifest-path native/Cargo.toml --locked
+          cargo clippy --manifest-path native/Cargo.toml --locked --all-targets -- -D warnings
+          cargo fmt --manifest-path native/Cargo.toml --all --check
+          node scripts/build-native.mjs
+      - run: |
+          $PSNativeCommandUseErrorActionPreference = $true
+          $ErrorActionPreference = 'Stop'
+          $env:PI_GHOST_NATIVE_PATH = Join-Path $PWD 'artifacts/ghost-native.node'
+          $env:PI_GHOST_MODEL_TEST = '1'
+          node --experimental-strip-types --test test/native-smoke.test.ts test/model-integration.test.ts
+          node scripts/assemble-platform.mjs '${{ matrix.target }}' artifacts/ghost-native.node
+          node scripts/verify-package.mjs
+          npm pack --ignore-scripts --pack-destination artifacts --json > artifacts/parent-pack.json
+          Remove-Item Env:PI_GHOST_NATIVE_PATH
+          node scripts/install-smoke.mjs
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pi-ghost-${{ matrix.target }}
+          path: artifacts/*.tgz

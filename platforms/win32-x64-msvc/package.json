@@ -1,0 +1,23 @@
+{
+  "name": "@sheethappiness/pi-ghost-autocomplete-win32-x64-msvc",
+  "version": "0.1.0",
+  "description": "SmolLM2 CPU native predictor for Pi",
+  "license": "MIT",
+  "main": "ghost-native.node",
+  "os": [
+    "win32"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "files": [
+    "ghost-native.node",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md",
+    "licenses",
+    "PROVENANCE.md"
+  ]
+}

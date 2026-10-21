@@ -1,0 +1,29 @@
+[
+  {
+    "name": "SmolLM2-MODEL-CARD.md",
+    "url": "https://huggingface.co/HuggingFaceTB/SmolLM2-135M/raw/93efa2f097d58c2a74874c7e644dbc9b0cee75a2/README.md",
+    "sha256": "d1ba68cae64a89b6b434b11526e6e2271ee5ffd2c914ec35ed515f9d84c6085c"
+  },
+  {
+    "name": "QuantFactory-MODEL-CARD.md",
+    "url": "https://huggingface.co/QuantFactory/SmolLM2-135M-GGUF/raw/d948db3614be18259a175aafd7689a70f1cb4e2f/README.md",
+    "sha256": "a1bf9f34ab9711a7fdcab29743ad87e650c353e8f40d404e57b3504af4603fee"
+  },
+  {
+    "name": "SmolLM2-APACHE-2.0.txt",
+    "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+    "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  },
+  {
+    "repo": "HuggingFaceTB/SmolLM2-135M",
+    "revision": "93efa2f097d58c2a74874c7e644dbc9b0cee75a2",
+    "license": "apache-2.0",
+    "upstreamLicenseFiles": []
+  },
+  {
+    "repo": "QuantFactory/SmolLM2-135M-GGUF",
+    "revision": "d948db3614be18259a175aafd7689a70f1cb4e2f",
+    "license": "apache-2.0",
+    "upstreamLicenseFiles": []
+  }
+]

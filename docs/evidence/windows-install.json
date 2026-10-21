@@ -1,0 +1,10 @@
+{
+  "target": "win32-x64-msvc",
+  "installed": "Installing npm:pi-ghost-autocomplete@0.1.0...\n\nadded 2 packages in 862ms\nInstalled npm:pi-ghost-autocomplete@0.1.0\n",
+  "listed": "User packages:\n  npm:pi-ghost-autocomplete@0.1.0\n    C:\\Users\\<user>\\AppData\\Local\\Temp\\pi-ghost-install-wJ9oKz\\agent\\npm\\node_modules\\pi-ghost-autocomplete\n",
+  "extensionPaths": [
+    "C:\\Users\\<user>\\AppData\\Local\\Temp\\pi-ghost-install-wJ9oKz\\agent\\npm\\node_modules\\pi-ghost-autocomplete\\src\\extension.ts"
+  ],
+  "nativePath": "C:\\Users\\<user>\\AppData\\Local\\Temp\\pi-ghost-install-wJ9oKz\\agent\\npm\\node_modules\\@sheethappiness\\pi-ghost-autocomplete-win32-x64-msvc\\ghost-native.node",
+  "source": "local fixture registry; not public npm"
+}
