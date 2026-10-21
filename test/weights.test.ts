@@ -154,7 +154,7 @@ test("independent processes recover a dead owner lock and install only once", as
   let requests = 0;
   const server = createServer((_req, res) => {
     requests++;
-    res.end(bytes);
+    setTimeout(() => res.end(bytes), 50);
   });
   await new Promise<void>((r) => server.listen(0, "127.0.0.1", r));
   const address = server.address();
@@ -174,7 +174,7 @@ test("independent processes recover a dead owner lock and install only once", as
     );
     await Promise.all(
       Array.from(
-        { length: 6 },
+        { length: 12 },
         () =>
           new Promise<void>((resolve, reject) => {
             const child = spawn(

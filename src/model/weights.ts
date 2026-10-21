@@ -54,7 +54,21 @@ async function acquire(
     } catch (error) {
       if (code(error) !== "EEXIST") throw error;
     }
+    // Serialize stale-owner inspection and removal. Otherwise two waiters can
+    // inspect the same dead owner and the second can rename a new live lock.
+    let recovery: Awaited<ReturnType<typeof open>> | undefined;
     try {
+      recovery = await open(path + ".recovery", "wx", 0o600);
+    } catch (error) {
+      if (code(error) !== "EEXIST") throw error;
+    }
+    try {
+      if (!recovery) {
+        if (Date.now() >= deadline)
+          throw new Error(`Model lock recovery timed out: ${path}.recovery`);
+        await delay(50, undefined, { signal });
+        continue;
+      }
       let stale = false;
       const info = await stat(path);
       try {
@@ -80,6 +94,11 @@ async function acquire(
       }
     } catch (e) {
       if (code(e) !== "ENOENT") throw e;
+    } finally {
+      if (recovery) {
+        await recovery.close();
+        await rm(path + ".recovery", { force: true });
+      }
     }
     if (Date.now() >= deadline) throw new Error("Model install lock timed out");
     await delay(50, undefined, { signal });
