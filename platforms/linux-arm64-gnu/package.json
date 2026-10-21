@@ -3,9 +3,31 @@
   "version": "0.1.0",
   "license": "MIT",
   "main": "ghost-native.node",
-  "os": ["linux"],
-  "cpu": ["arm64"],
-  "libc": ["glibc"],
-  "engines": {"node": ">=22.19.0"},
-  "files": ["ghost-native.node", "LICENSE", "THIRD_PARTY_NOTICES.md", "licenses", "PROVENANCE.md"]
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "libc": [
+    "glibc"
+  ],
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "files": [
+    "ghost-native.node",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md",
+    "licenses",
+    "PROVENANCE.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SheetHappiness/pi-ghost-autocomplete.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  }
 }

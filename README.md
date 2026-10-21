@@ -1,4 +1,4 @@
-# pi-ghost-autocomplete
+# pi-autocomplete
 
 Standalone Pi extension with a CPU SmolLM2-135M predictor on a dedicated native
 thread. Pi core is unchanged. Tested host: Pi 1.3.0, source reference
@@ -30,10 +30,18 @@ Default data location is `<Pi agent directory>/ghost-autocomplete/`.
 `PI_GHOST_CACHE_DIR` and `PI_GHOST_STATE_DIR` override model/state roots.
 `PI_GHOST_NATIVE_PATH` is an explicit absolute development artifact override.
 
-Native packages are **not published to npm**. A plain `pi install` from this
-repository does not supply the native binary yet. Build locally with Node.js
+The npm package name is `pi-autocomplete`. Once v0.1.0 is published, install with:
 
-> =22.19.0, Rust 1.90.0, and the Windows MSVC SDK/linker (or GNU/Linux tools):
+```powershell
+pi install npm:pi-autocomplete
+```
+
+npm selects the matching native package automatically. No Rust toolchain is
+needed by users of the published package. Native packages are still awaiting
+their first publication; the command above is not available yet.
+
+To build locally, use Node.js >=22.19.0, Rust 1.90.0, and the Windows MSVC
+SDK/linker (or GNU/Linux tools):
 
 ```powershell
 npm ci --ignore-scripts
@@ -45,7 +53,8 @@ node scripts/install-local.mjs artifacts
 ```
 
 On Linux x64 use `linux-x64-gnu` instead of `win32-x64-msvc`. GitHub Actions also
-builds downloadable package archives; ARM64 targets remain experimental.
+builds downloadable package archives and validates all four targets before
+assembling a release candidate. See [release instructions](docs/releasing.md).
 If you already have both parent and matching native archives, install them with:
 
 ```powershell

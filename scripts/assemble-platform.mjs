@@ -29,6 +29,11 @@ writeFileSync(
       version: p.version,
       description: "SmolLM2 CPU native predictor for Pi",
       license: "MIT",
+      repository: p.repository,
+      publishConfig: {
+        access: "public",
+        registry: "https://registry.npmjs.org/",
+      },
       main: "ghost-native.node",
       os: [os],
       cpu: [cpu],

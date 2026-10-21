@@ -3,6 +3,14 @@
   "version": "0.1.0",
   "description": "SmolLM2 CPU native predictor for Pi",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SheetHappiness/pi-ghost-autocomplete.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "main": "ghost-native.node",
   "os": [
     "win32"

@@ -10,18 +10,13 @@ jobs:
         include:
           - runner: windows-2022
             target: win32-x64-msvc
-            experimental: false
           - runner: ubuntu-22.04
             target: linux-x64-gnu
-            experimental: false
           - runner: ubuntu-24.04-arm
             target: linux-arm64-gnu
-            experimental: true
           - runner: macos-15
             target: darwin-arm64
-            experimental: true
     runs-on: ${{ matrix.runner }}
-    continue-on-error: ${{ matrix.experimental }}
     defaults:
       run:
         shell: pwsh
@@ -63,3 +58,25 @@ jobs:
         with:
           name: pi-ghost-${{ matrix.target }}
           path: artifacts/*.tgz
+  package-set:
+    needs: native
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22.23.3
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          pattern: pi-ghost-*
+          path: downloads
+      - name: Validate complete release set without publishing
+        run: |
+          mkdir release
+          cp downloads/pi-ghost-linux-x64-gnu/pi-autocomplete-*.tgz release/
+          find downloads -name 'sheethappiness-*.tgz' -exec cp {} release/ \;
+          node scripts/release.mjs release
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: release-candidate
+          path: release/*.tgz

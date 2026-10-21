@@ -1,5 +1,5 @@
 {
-  "name": "pi-ghost-autocomplete",
+  "name": "pi-autocomplete",
   "version": "0.1.0",
   "description": "Local SmolLM2 ghost text autocomplete for Pi",
   "repository": {
@@ -8,6 +8,10 @@
   },
   "type": "module",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "keywords": [
     "pi-package"
   ],
@@ -27,8 +31,9 @@
     "node": ">=22.19.0"
   },
   "scripts": {
-    "test": "node --experimental-strip-types --test test/*.test.ts",
-    "check": "tsc --noEmit"
+    "test": "node --experimental-strip-types --test test/*.test.*",
+    "check": "tsc --noEmit",
+    "release:check": "node scripts/release.mjs"
   },
   "peerDependencies": {
     "@earendil-works/pi-coding-agent": "*",

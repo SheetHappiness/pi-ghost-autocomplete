@@ -89,7 +89,13 @@ for (const key of ["\t", "\x1b[C"])
     editor.handleInput(key);
     assert.equal(editor.getText(), "hello");
     const undo = keys.getKeys("tui.editor.undo")[0];
-    editor.handleInput(undo === "alt+z" ? "\x1bz" : "\x1a");
+    const undoInput: Record<string, string> = {
+      "alt+z": "\x1bz",
+      "ctrl+z": "\x1a",
+      "ctrl+-": "\x1f",
+    };
+    assert.ok(undoInput[undo], `Unmapped host Undo binding: ${undo}`);
+    editor.handleInput(undoInput[undo]);
     assert.equal(editor.getText(), "hel");
   });
 test("Escape dismisses once then delegates", () => {

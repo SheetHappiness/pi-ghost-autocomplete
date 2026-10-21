@@ -10,6 +10,10 @@ import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 
 const project = resolve(fileURLToPath(new URL("../", import.meta.url)));
+const parent = JSON.parse(
+  await readFile(join(project, "package.json"), "utf8"),
+);
+const version = parent.version;
 const root = await mkdtemp(join(tmpdir(), "pi-ghost-install-"));
 const cwd = join(root, "project"),
   agentDir = join(root, "agent");
@@ -22,20 +26,17 @@ const target = {
   "darwin-arm64": "darwin-arm64",
 }[`${process.platform}-${process.arch}`];
 assert.ok(target, "unsupported install smoke target");
-const names = [
-  "pi-ghost-autocomplete",
-  `@sheethappiness/pi-ghost-autocomplete-${target}`,
-];
+const names = [parent.name, `@sheethappiness/pi-ghost-autocomplete-${target}`];
 const packages = new Map();
 for (const name of names) {
-  const parent = name === names[0];
-  const filename = parent
-    ? "pi-ghost-autocomplete-0.1.0.tgz"
-    : `sheethappiness-pi-ghost-autocomplete-${target}-0.1.0.tgz`;
+  const isParent = name === names[0];
+  const filename = isParent
+    ? `${parent.name.replace(/^@/, "").replace("/", "-")}-${version}.tgz`
+    : `sheethappiness-pi-ghost-autocomplete-${target}-${version}.tgz`;
   const data = await readFile(join(project, "artifacts", filename));
   const manifest = JSON.parse(
     await readFile(
-      parent
+      isParent
         ? join(project, "package.json")
         : join(project, "platforms", target, "package.json"),
       "utf8",
@@ -64,9 +65,9 @@ const server = createServer((req, res) => {
     res.end(
       JSON.stringify({
         name: path,
-        "dist-tags": { latest: "0.1.0" },
+        "dist-tags": { latest: version },
         versions: {
-          "0.1.0": {
+          [version]: {
             ...p.manifest,
             dist: {
               tarball: `http://127.0.0.1:${address.port}/tarballs/${p.filename}`,
@@ -121,13 +122,11 @@ function run(args) {
   });
 }
 try {
-  const installed = await run(["install", "npm:pi-ghost-autocomplete@0.1.0"]);
+  const source = `npm:${parent.name}@${version}`;
+  const installed = await run(["install", source]);
   const listed = await run(["list"]);
-  assert.match(listed, /pi-ghost-autocomplete/);
-  const installedRoot = join(
-    agentDir,
-    "npm/node_modules/pi-ghost-autocomplete",
-  );
+  assert.ok(listed.includes(parent.name));
+  const installedRoot = join(agentDir, "npm/node_modules", parent.name);
   const inventory = JSON.parse(
     await readFile(
       join(installedRoot, "licenses/rust-dependencies.json"),
@@ -169,8 +168,8 @@ try {
   });
   await assert.rejects(engine.ready());
   await engine.close();
-  await run(["remove", "npm:pi-ghost-autocomplete@0.1.0"]);
-  assert.doesNotMatch(await run(["list"]), /npm:pi-ghost-autocomplete/);
+  await run(["remove", source]);
+  assert.ok(!(await run(["list"])).includes(source));
   await run(["install", project]);
   assert.ok((await run(["list"])).includes(project));
   await run(["remove", project]);
