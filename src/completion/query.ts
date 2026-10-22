@@ -37,21 +37,19 @@ export function queryFor(
   lines: readonly string[],
   lineIndex: number,
   col: number,
+  editorText?: string,
 ): Query | undefined {
   const line = lines[lineIndex];
-  if (
-    line === undefined ||
-    col !== line.length ||
-    lines.join("\n").includes("[paste #")
-  )
-    return;
+  if (line === undefined || col !== line.length) return;
+  const fullText = editorText ?? lines.join("\n");
+  if (fullText.includes("[paste #")) return;
   const match = /[\p{L}\p{M}']+$/u.exec(line);
   if (!match || [...match[0]].filter((c) => /\p{L}/u.test(c)).length < 2)
     return;
   const start = col - match[0].length;
   if (
     !isProseWord(line, maskNonProse(line), start, col) ||
-    !prose.isProse(lineContext(lines, lineIndex), start, col)
+    !prose.isProse(lineContext(lines, lineIndex, fullText), start, col)
   )
     return;
   return { before: textBefore(lines, lineIndex, start), prefix: match[0] };

@@ -18,7 +18,7 @@ export class GhostTextEditor extends CustomEditor {
   private ghostKeys: KeybindingsManager;
   private session: string;
   private pasting = false;
-  private painted: { snapshot: string; suffix: string } | undefined;
+  private painted: { snapshot: Snapshot; suffix: string } | undefined;
 
   constructor(
     tui: TUI,
@@ -36,19 +36,26 @@ export class GhostTextEditor extends CustomEditor {
   private snapshot(): Snapshot {
     return { text: this.getText(), ...this.getCursor(), session: this.session };
   }
-  private reconcile(): void {
+  private reconcile(): { snapshot: Snapshot; lines: string[] } | undefined {
     if (!this.ghostController) return;
-    const snapshot = this.snapshot();
+    const lines = this.getLines();
+    const editorText = lines.join("\n");
+    const { line, col } = this.getCursor();
+    const snapshot = { text: editorText, line, col, session: this.session };
     this.ghostController.update(
       snapshot,
-      this.eligible()
-        ? queryFor(this.getLines(), snapshot.line, snapshot.col)
+      this.eligible(lines, snapshot)
+        ? queryFor(lines, snapshot.line, snapshot.col, editorText)
         : undefined,
     );
+    return { snapshot, lines };
   }
-  private eligible(): boolean {
-    const { line, col } = this.getCursor();
-    const text = this.getLines()[line] ?? "";
+  private eligible(
+    lines = this.getLines(),
+    cursor = this.getCursor(),
+  ): boolean {
+    const { line, col } = cursor;
+    const text = lines[line] ?? "";
     return (
       this.focused &&
       !this.pasting &&
@@ -66,15 +73,15 @@ export class GhostTextEditor extends CustomEditor {
       return [" ".repeat(Math.max(0, width))];
     }
     const rows = super.render(width);
-    this.reconcile();
+    const state = this.reconcile();
     this.painted = undefined;
-    if (!this.eligible()) return rows;
-    const snapshot = this.snapshot();
+    if (!state || !this.eligible(state.lines, state.snapshot)) return rows;
+    const { snapshot } = state;
     const suffix = this.ghostController.visible(snapshot);
     if (!suffix) return rows;
     const decorated = renderGhost(rows, width, suffix);
     if (decorated.some((row, i) => row !== rows[i]))
-      this.painted = { snapshot: JSON.stringify(snapshot), suffix };
+      this.painted = { snapshot, suffix };
     return decorated;
   }
   override handleInput(data: string): void {
@@ -109,7 +116,11 @@ export class GhostTextEditor extends CustomEditor {
       const painted = this.painted;
       const visible =
         this.eligible() &&
-        painted?.snapshot === JSON.stringify(snapshot) &&
+        painted !== undefined &&
+        painted.snapshot.text === snapshot.text &&
+        painted.snapshot.line === snapshot.line &&
+        painted.snapshot.col === snapshot.col &&
+        painted.snapshot.session === snapshot.session &&
         this.ghostController.visible(snapshot) === painted.suffix;
       if (visible && this.ghostKeys.matches(data, "app.interrupt")) {
         this.ghostController.dismiss(snapshot);

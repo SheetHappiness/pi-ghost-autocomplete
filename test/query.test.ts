@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { queryFor } from "../src/completion/query.ts";
+import { lineContext } from "../src/completion/prose-gate.ts";
 const query = (text: string) => {
   const lines = text.split("\n");
   return queryFor(lines, lines.length - 1, lines.at(-1)!.length);
@@ -42,4 +43,26 @@ test("size caps and surrogate safe context tail", () => {
   assert.ok(q);
   assert.ok(q.before.length <= 2000);
   assert.ok(!/^[\uDC00-\uDFFF]/.test(q.before));
+});
+
+test("query and prose context reuse a precomputed editor text", () => {
+  const lines = ["hello"];
+  lines.join = () => {
+    throw new Error("editor text should be reused");
+  };
+  const editorText = "hello";
+
+  assert.deepEqual(queryFor(lines, 0, 5, editorText), {
+    before: "",
+    prefix: "hello",
+  });
+  assert.equal(lineContext(lines, 0, editorText).editorText, editorText);
+});
+
+test("precomputed editor text still detects a paste marker", () => {
+  const lines = ["[paste #1]", "hello"];
+  lines.join = () => {
+    throw new Error("editor text should be reused");
+  };
+  assert.equal(queryFor(lines, 1, 5, "[paste #1]\nhello"), undefined);
 });

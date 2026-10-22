@@ -59,8 +59,9 @@ export function isProseWord(
 export function lineContext(
   lines: readonly string[],
   line: number,
+  editorText = lines.join("\n"),
 ): SpellingDecorationContext {
-  return { editorText: lines.join("\n"), lines, line, startCol: 0 };
+  return { editorText, lines, line, startCol: 0 };
 }
 
 /**
