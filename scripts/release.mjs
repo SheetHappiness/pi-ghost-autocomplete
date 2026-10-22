@@ -145,8 +145,8 @@ if (
         console.log(`Already published with matching integrity: ${entry.name}`);
         continue;
       }
-      console.log(
-        npm([
+      npm(
+        [
           "publish",
           entry.path,
           "--ignore-scripts",
@@ -154,7 +154,8 @@ if (
           "public",
           "--registry",
           registry,
-        ]),
+        ],
+        { stdio: "inherit" },
       );
       const integrity = JSON.parse(
         npm([

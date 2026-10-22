@@ -710,13 +710,7 @@ impl Decoder for CpuLlama {
     }
 
     fn restore(&mut self, at: usize, row: &KvRow) -> anyhow::Result<()> {
-        #[cfg_attr(
-            not(target_os = "macos"),
-            expect(irrefutable_let_patterns, reason = "one variant off macOS")
-        )]
-        let KvRow::Host(row) = row else {
-            anyhow::bail!("KV row from another backend")
-        };
+        let KvRow::Host(row) = row;
         anyhow::ensure!(at <= self.len, "restore past the cached length");
         let c = &self.weights.config;
         let width = c.num_key_value_heads * c.head_dim();
