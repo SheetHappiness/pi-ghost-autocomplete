@@ -5,6 +5,29 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { npm } from "../scripts/npm.mjs";
 
+test("publication verification tolerates registry processing but rejects mismatched contents", async () => {
+  const { verifyPublished } = await import("../scripts/release.mjs");
+  const entry = { name: "@test/ghost", version: "1.2.3", integrity: "sha512-expected" };
+  let remaining = 2;
+  const read = () => {
+    if (remaining-- > 0) throw new Error("npm error code E404");
+    return JSON.stringify("sha512-expected");
+  };
+  await verifyPublished(entry, read, { attempts: 3, intervalMs: 0 });
+  await assert.rejects(
+    verifyPublished(entry, () => JSON.stringify("sha512-wrong"), { intervalMs: 0 }),
+    /integrity mismatch/i,
+  );
+  await assert.rejects(
+    verifyPublished(entry, () => { throw new Error("npm error E401"); }, { intervalMs: 0 }),
+    /E401/,
+  );
+  await assert.rejects(
+    verifyPublished(entry, () => { throw new Error("npm error code E404"); }, { attempts: 2, intervalMs: 0 }),
+    /still unavailable.*do not republish/i,
+  );
+});
+
 test("release preflight requires every matching native archive before the parent", async () => {
   const { releasePlan } = await import("../scripts/release.mjs");
   const root = mkdtempSync(join(tmpdir(), "ghost-release-"));

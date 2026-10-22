@@ -5,6 +5,27 @@ import { readFileSync, readdirSync } from "node:fs";
 import { resolve, join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { npm } from "./npm.mjs";
+import { setTimeout } from "node:timers/promises";
+
+export async function verifyPublished(entry, read = npm, { attempts = 60, intervalMs = 10000 } = {}) {
+  for (let attempt = 0; attempt < attempts; attempt++) {
+    let integrity;
+    try {
+      integrity = JSON.parse(read([
+        "view", `${entry.name}@${entry.version}`, "dist.integrity", "--json",
+        "--registry", "https://registry.npmjs.org/",
+      ]));
+    } catch (error) {
+      if (!String(error).includes("E404")) throw error;
+      if (attempt + 1 === attempts)
+        throw new Error(`Published package still unavailable: ${entry.name}@${entry.version}. Do not republish; check npm processing status.`);
+      await setTimeout(intervalMs);
+      continue;
+    }
+    assert.equal(integrity, entry.integrity, `Published integrity mismatch: ${entry.name}`);
+    return;
+  }
+}
 
 const platforms = {
   "win32-x64-msvc": ["win32", "x64"],
@@ -157,21 +178,8 @@ if (
         ],
         { stdio: "inherit" },
       );
-      const integrity = JSON.parse(
-        npm([
-          "view",
-          `${entry.name}@${entry.version}`,
-          "dist.integrity",
-          "--json",
-          "--registry",
-          registry,
-        ]),
-      );
-      assert.equal(
-        integrity,
-        entry.integrity,
-        `Published integrity mismatch: ${entry.name}`,
-      );
+      console.log(`Waiting for npm availability and integrity: ${entry.name}`);
+      await verifyPublished(entry);
     }
   }
 }

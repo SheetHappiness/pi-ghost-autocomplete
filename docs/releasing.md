@@ -29,6 +29,10 @@ any writes. It publishes native dependencies first and the parent last, always
 to the public npm registry with public access. An interrupted publish can be
 retried: already published versions are skipped only when SHA-512 integrity
 matches the local archive. A conflicting immutable version stops the release.
+After npm accepts an upload, its publish-time processing can temporarily return
+404. Verification waits up to ten minutes for availability and checks integrity.
+If processing takes longer, do not upload the same version again: wait for npm
+to make it available, then rerun the release script to verify and continue.
 
 Finally use an isolated Pi profile to run `pi install npm:pi-autocomplete@0.1.0`
 against the public registry. Confirm extension discovery, native package
