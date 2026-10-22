@@ -30,15 +30,17 @@ Default data location is `<Pi agent directory>/ghost-autocomplete/`.
 `PI_GHOST_CACHE_DIR` and `PI_GHOST_STATE_DIR` override model/state roots.
 `PI_GHOST_NATIVE_PATH` is an explicit absolute development artifact override.
 
-The npm package name is `pi-autocomplete`. Once v0.1.0 is published, install with:
+Install the published npm package:
 
 ```powershell
 pi install npm:pi-autocomplete
 ```
 
 npm selects the matching native package automatically. No Rust toolchain is
-needed by users of the published package. Native packages are still awaiting
-their first publication; the command above is not available yet.
+needed. Version 0.1.0 is published for Windows x64, Linux x64/glibc,
+Linux ARM64/glibc and macOS ARM64.
+Public-registry installation was verified in a clean Windows Pi profile,
+including automatic native resolution and model readiness before input.
 
 To build locally, use Node.js >=22.19.0, Rust 1.90.0, and the Windows MSVC
 SDK/linker (or GNU/Linux tools):
@@ -63,8 +65,7 @@ node scripts/install-local.mjs artifacts
 ```
 
 The installer honors `PI_CODING_AGENT_DIR`; otherwise it uses `~/.pi/agent`.
-A parent-only tarball installed
-against the public registry cannot obtain unpublished native packages.
+A parent-only tarball can resolve its matching native package from npm.
 
 Development (Node >=22.19, Rust 1.90.0, Windows MSVC SDK/linker or GNU/Linux):
 
@@ -81,19 +82,19 @@ node scripts/verify-package.mjs
 
 Build Linux/macOS packages on their native runner, changing the platform argument.
 Linux packages require glibc; musl, Android/Termux and Windows ARM64 are excluded.
-Linux ARM64 and macOS ARM64 are configured targets, unverified until their native
-CI gates run. See docs/verification.md for exact evidence and remaining checks.
+All four targets passed native CI, including real-model inference and Pi package
+installation. [Verified release build](https://github.com/SheetHappiness/pi-ghost-autocomplete/actions/runs/39703141565).
 
-| Target            | Local evidence                                                   |
+| Target            | Verification                                                     |
 | ----------------- | ---------------------------------------------------------------- |
 | Windows x64 MSVC  | Rust/TS tests, real-model inference, Pi install, native terminal |
 | Linux x64 glibc   | Rust/TS tests, real-model inference, Pi install under WSL        |
-| Linux ARM64 glibc | CI configuration only                                            |
-| macOS ARM64       | CI configuration only                                            |
+| Linux ARM64 glibc | Native CI: Rust/TS tests, real-model inference, Pi install       |
+| macOS ARM64       | Native CI: Rust/TS tests, real-model inference, Pi install       |
 
 The supplied Linux binary references GLIBC_2.34 symbols and was tested on glibc
-2.44. An older-runtime compatibility run remains outstanding. Remote CI and
-human-operated GUI resize checks have not been executed. Offline cold-start
+2.44. An older-runtime compatibility run remains outstanding.
+Human-operated GUI resize checks have not been executed. Offline cold-start
 failure is tested with local fixtures; verified warm assets need no network.
 
 OMP code is pinned to 45c35e40c46166dc726ccc52f5d27f40f2449f99.
