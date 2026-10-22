@@ -17,6 +17,11 @@ export function npm(args, options = {}) {
     ...options,
   });
   if (result.status !== 0)
-    throw new Error(result.stderr || result.stdout || String(result.error));
+    throw new Error(
+      result.stderr ||
+        result.stdout ||
+        result.error?.message ||
+        `npm exited with code ${result.status}${result.signal ? ` (signal ${result.signal})` : ""}`,
+    );
   return result.stdout;
 }
