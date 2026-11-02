@@ -2,24 +2,48 @@
 
 # pi-autocomplete
 
-**Ghost text autocomplete for Pi. Local, fast, unobtrusive.**
+### Ghost text autocomplete for Pi
 
-[![npm](https://img.shields.io/npm/v/pi-autocomplete?style=flat&colorA=18181b&colorB=cb3837)](https://www.npmjs.com/package/pi-autocomplete)
-[![CI](https://img.shields.io/github/actions/workflow/status/SheetHappiness/pi-ghost-autocomplete/ci.yml?branch=main&style=flat&colorA=18181b)](https://github.com/SheetHappiness/pi-ghost-autocomplete/actions)
-[![License](https://img.shields.io/github/license/SheetHappiness/pi-ghost-autocomplete?style=flat&colorA=18181b)](LICENSE)
+**Local. Fast. Quietly useful.**
 
 <br>
 
-<img src="./32.gif" alt="pi-autocomplete demo">
+[![npm](https://img.shields.io/npm/v/pi-autocomplete?style=for-the-badge&label=npm&color=CB3837)](https://www.npmjs.com/package/pi-autocomplete)
+[![Pi](https://img.shields.io/badge/Pi-extension-111111?style=for-the-badge)](https://github.com/badlogic/pi-mono)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Rust](https://img.shields.io/badge/Rust-000000?style=for-the-badge&logo=rust&logoColor=white)](https://www.rust-lang.org/)
+
+[![SmolLM2](https://img.shields.io/badge/SmolLM2-135M-FFD21E?style=for-the-badge)](https://huggingface.co/HuggingFaceTB/SmolLM2-135M)
+[![Local](https://img.shields.io/badge/inference-local-2ea44f?style=for-the-badge)](#local-by-design)
+[![CPU](https://img.shields.io/badge/runtime-CPU-6e7681?style=for-the-badge)](#how-it-works)
+[![Node](https://img.shields.io/badge/Node.js-%E2%89%A522.19-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+
+[![Windows](https://img.shields.io/badge/Windows-x64-0078D4?style=for-the-badge&logo=windows11&logoColor=white)](#platforms)
+[![Linux](https://img.shields.io/badge/Linux-x64%20%7C%20ARM64-FCC624?style=for-the-badge&logo=linux&logoColor=black)](#platforms)
+[![macOS](https://img.shields.io/badge/macOS-ARM64-000000?style=for-the-badge&logo=apple&logoColor=white)](#platforms)
+
+[![CI](https://img.shields.io/github/actions/workflow/status/SheetHappiness/pi-ghost-autocomplete/ci.yml?branch=main&style=for-the-badge&label=build)](https://github.com/SheetHappiness/pi-ghost-autocomplete/actions)
+[![License](https://img.shields.io/github/license/SheetHappiness/pi-ghost-autocomplete?style=for-the-badge)](LICENSE)
+
+<br>
+<br>
+
+<img src="./32.gif" alt="pi-autocomplete demo" width="900">
+
+<br>
 
 </div>
 
-<br>
+---
 
-Autocomplete that stays out of the way.
+## Autocomplete that stays out of the way
 
-Start typing and `pi-autocomplete` predicts the rest of the word directly inside Pi's editor.  
-Press **Tab** or **→** to accept. **Esc** to dismiss.
+Start typing.
+
+A dim completion appears directly after your cursor.
+
+Press **Tab** or **→** to accept it.  
+Press **Esc** to ignore it.
 
 ```sh
 pi install npm:pi-autocomplete
@@ -29,68 +53,49 @@ That's it.
 
 ## How it works
 
-**Obvious completion?** Use the dictionary.
+`pi-autocomplete` uses a simple hybrid predictor:
 
-**Ambiguous completion?** Ask the local model.
+```text
+typing
+  ↓
+dictionary
+  ↓
+personal vocabulary
+  ↓
+SmolLM2 fallback
+  ↓
+ghost text
+```
 
-`pi-autocomplete` combines a fast frequency dictionary with your locally learned vocabulary. When that isn't enough, it falls back to a CPU-running [SmolLM2-135M](https://huggingface.co/HuggingFaceTB/SmolLM2-135M).
+Common and confident completions are handled by a bundled English frequency dictionary.
 
-No remote inference. No prompt text sent to a model service.
+Words you use are learned locally and become part of your personal vocabulary.
 
-## Made for typing
+When the prefix is ambiguous, autocomplete falls back to a local **SmolLM2-135M** model running on CPU.
 
-| | |
+No remote inference is required.
+
+## Example
+
+```text
+imple      → implement
+auth       → authentication
+middlew    → middleware
+configu    → configuration
+```
+
+The suggestion stays ghosted until you accept it.
+
+## Controls
+
+| Key | Action |
 |---|---|
-| `Tab` / `→` | Accept suggestion |
-| `Esc` | Dismiss suggestion |
-| Undo | Undo the last acceptance |
-| `/ghost off` | Disable autocomplete |
-| `/ghost on` | Enable it again |
+| `Tab` | Accept completion |
+| `→` | Accept completion |
+| `Esc` | Dismiss |
+| Undo | Undo last acceptance |
 
-Slash commands and Pi's own file completion keep priority.
-
-## It learns your vocabulary
-
-The bundled dictionary handles common English words immediately.
-
-Words you actually use can become part of a small personal dictionary, ranked using frequency, recency and previous acceptances.
-
-So over time:
-
-```text
-imple → implement
-auth → authentication
-middlew → middleware
-```
-
-without requiring model inference for every completion.
-
-Personal vocabulary stays on your machine.
-
-## Local by design
-
-The predictor runs locally on CPU.
-
-On first use, the required model files are downloaded and verified before loading. After that, the cached model is used locally.
-
-Dictionary completion remains available while the model is loading – or even if the native predictor is unavailable.
-
-Check everything with:
-
-```text
-/ghost status
-```
-
-## Platforms
-
-Prebuilt native packages are available for:
-
-- Windows x64
-- Linux x64
-- Linux ARM64
-- macOS ARM64
-
-No Rust toolchain is required for normal installation.
+Pi's slash commands and file completion keep priority.
 
 ## Commands
 
@@ -102,17 +107,65 @@ No Rust toolchain is required for normal installation.
 /ghost dictionary clear
 ```
 
-## Under the hood
+## Personal vocabulary
 
-`pi-autocomplete` is intentionally small.
+Autocomplete learns from the prose you submit and suggestions you accept.
 
-The editor integration is TypeScript, while local model inference runs through a native Rust module on a dedicated thread.
+Ranking combines:
 
-Parts of the prose detection, completion and SmolLM predictor implementation were adapted from [Oh My Pi](https://github.com/can1357/oh-my-pi), with the exact upstream commit and file-level provenance recorded in [`vendor/omp/PROVENANCE.md`](vendor/omp/PROVENANCE.md).
+- common English frequency
+- your own word frequency
+- recency
+- previous acceptance for a prefix
 
-The English frequency dictionary is derived from [wordfreq](https://github.com/rspeer/wordfreq) by Robyn Speer.
+The personal dictionary is stored locally.
 
-Full attribution and licenses are available in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+It does not need to send your vocabulary to an external service.
+
+## Local by design
+
+The model runs through a native Rust predictor on a dedicated thread.
+
+The first interactive session prepares the model in the background.
+
+After that, it uses the local cache.
+
+Dictionary completions keep working even while the model is loading or if the native predictor is unavailable.
+
+```text
+/ghost status
+```
+
+shows dictionary and model readiness separately.
+
+## Stack
+
+<div align="center">
+
+**Pi** · **TypeScript** · **Rust** · **SmolLM2-135M** · **Node.js**
+
+</div>
+
+The Pi extension and editor integration are written in TypeScript.
+
+Local model inference runs through a native Rust module.
+
+The predictor uses [SmolLM2-135M](https://huggingface.co/HuggingFaceTB/SmolLM2-135M) as its model fallback.
+
+The fast path is dictionary-first, so obvious completions don't need model inference at all.
+
+## Platforms
+
+Prebuilt native packages are published for:
+
+| Platform | Architecture |
+|---|---|
+| Windows | x64 |
+| Linux | x64 |
+| Linux | ARM64 |
+| macOS | ARM64 |
+
+Normal installation does **not** require a Rust toolchain.
 
 ## Development
 
@@ -124,14 +177,30 @@ npm run check
 
 Native development additionally requires Rust.
 
-See [`docs/releasing.md`](docs/releasing.md) for the release pipeline and platform packaging.
+Release and packaging details are documented in [`docs/releasing.md`](docs/releasing.md).
+
+## Credits
+
+Parts of the prose detection, word-completion logic and native predictor were adapted from [**Oh My Pi**](https://github.com/can1357/oh-my-pi).
+
+The exact upstream commit and file-level changes are documented in:
+
+[`vendor/omp/PROVENANCE.md`](vendor/omp/PROVENANCE.md)
+
+The local fallback model is [**SmolLM2-135M**](https://huggingface.co/HuggingFaceTB/SmolLM2-135M) by Hugging Face.
+
+The bundled English frequency dictionary is derived from [**wordfreq**](https://github.com/rspeer/wordfreq) by Robyn Speer.
+
+Licenses and full third-party attribution:
+
+[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)
 
 ---
 
 <div align="center">
 
-Built for [Pi](https://github.com/badlogic/pi-mono).
+Built for [**Pi**](https://github.com/badlogic/pi-mono).
 
-**Type less. Keep moving.**
+### Type less. Keep moving.
 
 </div>
