@@ -12,23 +12,15 @@
 [![Pi](https://img.shields.io/badge/Pi-extension-111111?style=for-the-badge)](https://github.com/badlogic/pi-mono)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Rust](https://img.shields.io/badge/Rust-000000?style=for-the-badge&logo=rust&logoColor=white)](https://www.rust-lang.org/)
-
 [![SmolLM2](https://img.shields.io/badge/SmolLM2-135M-FFD21E?style=for-the-badge)](https://huggingface.co/HuggingFaceTB/SmolLM2-135M)
-[![Local](https://img.shields.io/badge/inference-local-2ea44f?style=for-the-badge)](#local-by-design)
 [![CPU](https://img.shields.io/badge/runtime-CPU-6e7681?style=for-the-badge)](#how-it-works)
 [![Node](https://img.shields.io/badge/Node.js-%E2%89%A522.19-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
-
-[![Windows](https://img.shields.io/badge/Windows-x64-0078D4?style=for-the-badge&logo=windows11&logoColor=white)](#platforms)
-[![Linux](https://img.shields.io/badge/Linux-x64%20%7C%20ARM64-FCC624?style=for-the-badge&logo=linux&logoColor=black)](#platforms)
-[![macOS](https://img.shields.io/badge/macOS-ARM64-000000?style=for-the-badge&logo=apple&logoColor=white)](#platforms)
-
-[![CI](https://img.shields.io/github/actions/workflow/status/SheetHappiness/pi-ghost-autocomplete/ci.yml?branch=main&style=for-the-badge&label=build)](https://github.com/SheetHappiness/pi-ghost-autocomplete/actions)
 [![License](https://img.shields.io/github/license/SheetHappiness/pi-ghost-autocomplete?style=for-the-badge)](LICENSE)
 
 <br>
 <br>
 
-<img src="./32.gif" alt="pi-autocomplete demo" width="900">
+<img src="./assets/32.gif" alt="pi-autocomplete demo" width="900">
 
 <br>
 
@@ -73,7 +65,7 @@ Words you use are learned locally and become part of your personal vocabulary.
 
 When the prefix is ambiguous, autocomplete falls back to a local **SmolLM2-135M** model running on CPU.
 
-No remote inference is required.
+No remote model service is required.
 
 ## Example
 
@@ -120,8 +112,6 @@ Ranking combines:
 
 The personal dictionary is stored locally.
 
-It does not need to send your vocabulary to an external service.
-
 ## Local by design
 
 The model runs through a native Rust predictor on a dedicated thread.
@@ -148,11 +138,11 @@ shows dictionary and model readiness separately.
 
 The Pi extension and editor integration are written in TypeScript.
 
-Local model inference runs through a native Rust module.
+Local model execution runs through a native Rust module.
 
-The predictor uses [SmolLM2-135M](https://huggingface.co/HuggingFaceTB/SmolLM2-135M) as its model fallback.
+The predictor uses [SmolLM2-135M](https://huggingface.co/HuggingFaceTB/SmolLM2-135M) as its fallback.
 
-The fast path is dictionary-first, so obvious completions don't need model inference at all.
+The fast path is dictionary-first, so obvious completions don't need the model at all.
 
 ## Platforms
 
