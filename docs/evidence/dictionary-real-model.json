@@ -1,0 +1,14 @@
+{
+  "dictionaryReadyMs": 15.401800000000001,
+  "modelStateAtDictionaryHit": "loading",
+  "dictionaryHitMs": 1.9531999999999954,
+  "startupMs": 195.5308,
+  "fallbackPrefix": "complet",
+  "fallbackMs": 125.07769999999996,
+  "fallback": {
+    "suffix": "e",
+    "confidence": 0.871330201625824
+  },
+  "modelCalls": 1,
+  "warnings": []
+}

@@ -8,6 +8,11 @@ const names = packed.files.map((f) => f.path);
 for (const name of [
   "src/pi-ghost-autocomplete.ts",
   "src/editor/ghost-text-editor.ts",
+  "src/dictionary/common-en.json",
+  "src/dictionary/provenance.json",
+  "src/dictionary/PROVENANCE.md",
+  "licenses/wordfreq-NOTICE.md",
+  "licenses/wordfreq-CC-BY-SA-4.0.txt",
   "licenses/OMP-MIT.txt",
   "licenses/SmolLM2-APACHE-2.0.txt",
   "THIRD_PARTY_NOTICES.md",
@@ -15,7 +20,9 @@ for (const name of [
   assert.ok(names.includes(name), name);
 assert.ok(
   !names.some((p) =>
-    /node_modules|\.gguf$|\.part|memory\.json|\/target\//.test(p),
+    /node_modules|\.gguf$|\.part|memory\.json|personal-v1\.json|\/target\//.test(
+      p,
+    ),
   ),
 );
 const manifest = JSON.parse(readFileSync("package.json", "utf8"));

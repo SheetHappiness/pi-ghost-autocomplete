@@ -102,7 +102,10 @@ for (const outcome of ["ready", "failure"] as const) {
       assert.equal(preparations, 1);
       assert.deepEqual(footerStatuses, []);
       await extension.commands.get("ghost")!.handler("status", ctx as never);
-      assert.equal(notifications.pop(), "Ghost: preparing model");
+      assert.match(
+        notifications.pop()!,
+        /^Ghost: dictionary (loading|ready); model preparing model$/,
+      );
       if (outcome === "ready") finish("model");
       else reject(new Error("offline"));
       await new Promise((resolve) => setImmediate(resolve));
@@ -112,9 +115,11 @@ for (const outcome of ["ready", "failure"] as const) {
       if (outcome === "failure")
         assert.match(notifications[0], /offline.*\/ghost retry/);
       await extension.commands.get("ghost")!.handler("status", ctx as never);
-      assert.equal(
-        notifications.pop(),
-        outcome === "ready" ? "Ghost: ready" : "Ghost: unavailable: offline",
+      assert.match(
+        notifications.pop()!,
+        outcome === "ready"
+          ? /^Ghost: dictionary (loading|ready); model ready$/
+          : /^Ghost: dictionary (loading|ready); model unavailable: offline$/,
       );
     } finally {
       finish?.("model");

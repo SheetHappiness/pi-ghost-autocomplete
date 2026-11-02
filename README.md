@@ -1,7 +1,7 @@
 # pi-autocomplete
 
-Standalone Pi extension with a CPU SmolLM2-135M predictor on a dedicated native
-thread. Pi core is unchanged. Tested host: Pi 1.3.0, source reference
+Standalone Pi extension with dictionary-first word completion and a CPU
+SmolLM2-135M fallback on a dedicated native thread. Pi core is unchanged. Tested host: Pi 1.3.0, source reference
 02726086d11c2911aa872959e308b90d69182392.
 
 Type prose at the end of a line. After at least two letters, a dim suffix may
@@ -11,7 +11,9 @@ Slash commands and file completion keep priority. Undo reverses one acceptance.
 Hints that cannot fit completely are hidden. At terminal widths 1–2 the editor
 temporarily shows a blank frame to avoid a Pi 1.3.0 Unicode wrapping recursion.
 
-Commands: `/ghost on`, `/ghost off`, `/ghost status`, `/ghost retry`.
+Commands: `/ghost on`, `/ghost off`, `/ghost status`, `/ghost retry`,
+`/ghost dictionary clear`. Status reports dictionary and model readiness separately.
+Dictionary hits work while the model loads or if the native predictor fails.
 Prediction failures leave normal editing usable; retry is explicit.
 The extension uses Pi's single custom-editor slot; the previous editor factory
 is restored on disable/shutdown if this extension still owns the slot. It does
@@ -23,8 +25,36 @@ revisions. Use `/ghost status` to check preparation or readiness; no footer indi
 Each file is checked for exact size and SHA-256 before native loading.
 Warm caches are rehashed. No download or Rust build occurs during installation
 or import. Prompt text is never sent to a model service. Recent submitted prose
-is retained locally, bounded by the predictor's 2,500 UTF-16 unit memory limit,
+is retained locally, bounded by the predictor's 1,500 UTF-16 unit memory limit,
 in a directory keyed by the current session ID. No history bootstrap occurs.
+
+A packaged English frequency dictionary (20,000 words) and a personal Unicode
+dictionary handle confident prefixes of at least three letters without model
+inference. Ambiguous prefixes use SmolLM2. Ranking combines corpus frequency,
+personal prompt frequency, recency (30-day half-life), and explicit acceptance
+for a particular prefix. This is a heuristic, not a calibrated probability.
+Completion still appends one word suffix and does not correct existing text.
+
+Personal vocabulary learns from submitted interactive prose and accepted hints;
+repeated words count once per submitted prompt. Code, paths, slash commands and
+paste markers are excluded. New dictionary files contain words/counts/timestamps,
+not full prompts; the model's separate recent-prompt memory still contains prose.
+Personal learning is shared across sessions in
+`<Pi agent directory>/ghost-autocomplete/dictionary/personal-v1.json`, or
+`$PI_GHOST_STATE_DIR/dictionary/personal-v1.json` when overridden. Writes debounce
+for two seconds, merge under an exclusive lock, and flush on shutdown.
+`/ghost dictionary clear` clears this personal dictionary, including pending
+observations in the current process. Other running Pi processes may subsequently
+add their own pending observations. It does not clear the model's session memory.
+Save failures retain pending changes in memory; shutdown warns if they remain
+unsaved. A lock left by a crashed process is not removed automatically: after
+checking that no writer is running, remove the adjacent `personal-v1.json.lock`
+directory and use `/ghost retry`. Learning pauses with a warning if 4,096 pending
+events accumulate while storage is inaccessible.
+
+The English frequency asset is adapted from wordfreq 3.1.1 by Robyn Speer and
+licensed CC BY-SA 4.0, separately from plugin code. See
+[dictionary provenance](src/dictionary/PROVENANCE.md) and the bundled licenses.
 
 Default data location is `<Pi agent directory>/ghost-autocomplete/`.
 `PI_GHOST_CACHE_DIR` and `PI_GHOST_STATE_DIR` override model/state roots.
@@ -73,6 +103,7 @@ Development (Node >=22.19, Rust 1.90.0, Windows MSVC SDK/linker or GNU/Linux):
 npm ci --ignore-scripts
 npm test
 npm run check
+node --experimental-strip-types scripts/evaluate-dictionary.mjs
 cargo test --manifest-path native/Cargo.toml --locked
 cargo clippy --manifest-path native/Cargo.toml --locked --all-targets -- -D warnings
 node scripts/build-native.mjs

@@ -13,6 +13,7 @@ export interface Suggestion {
   confidence: number;
 }
 export interface Predictor {
+  fastComplete?(before: string, prefix: string): Suggestion | undefined;
   ready(): Promise<void>;
   complete(before: string, prefix: string): Promise<Suggestion | null>;
   observe(prompts: string[]): Promise<void>;

@@ -5,9 +5,11 @@ import type {
 import { GhostTextEditor } from "./editor/ghost-text-editor.ts";
 import { GhostController } from "./completion/controller.ts";
 import { LazyPredictor } from "./runtime.ts";
+import { HybridPredictor } from "./completion/hybrid-predictor.ts";
+import { PersonalDictionaryStore } from "./dictionary/store.ts";
 import { ensureWeights } from "./model/weights.ts";
 import { loadPredictor, assertNativeAvailable } from "./native/load.ts";
-import { cacheRoot, stateDirectory } from "./paths.ts";
+import { cacheRoot, stateDirectory, personalDictionaryPath } from "./paths.ts";
 import type { Predictor } from "./completion/types.ts";
 import type { PredictorOptions } from "./native/types.ts";
 import type { WeightsOptions } from "./model/weights.ts";
@@ -19,6 +21,9 @@ export interface GhostServices {
   prepare(options: WeightsOptions): Promise<string>;
   load(options: PredictorOptions): Predictor;
   checkNative(): void;
+  createDictionary?(
+    onDiagnostic: (message: string) => void,
+  ): PersonalDictionaryStore;
 }
 export default function ghostAutocomplete(
   pi: ExtensionAPI,
@@ -29,7 +34,7 @@ export default function ghostAutocomplete(
   },
 ): void {
   let enabled = true;
-  let runtime: LazyPredictor | undefined;
+  let runtime: HybridPredictor | undefined;
   let controller: GhostController | undefined;
   let factory: EditorFactory;
   let previous: EditorFactory;
@@ -114,7 +119,7 @@ export default function ghostAutocomplete(
         ctx.ui.notify(`${status}. Use /ghost retry.`, "warning");
       }
     };
-    runtime = new LazyPredictor(
+    const model = new LazyPredictor(
       stateDirectory(ctx.sessionManager.getSessionId()),
       {
         async prepare(signal) {
@@ -139,6 +144,20 @@ export default function ghostAutocomplete(
         },
       },
     );
+    const diagnostic = (message: string) => {
+      // Persistence can finish after the model's UI timeout or after a new lease.
+      // Deliver data-loss warnings to the current UI; gate stale startup messages.
+      if (message.includes("unsaved"))
+        (context ?? ctx).ui.notify(`${message}. Use /ghost retry.`, "warning");
+      else if (owns())
+        ctx.ui.notify(`${message}. Use /ghost retry.`, "warning");
+    };
+    const dictionary =
+      services.createDictionary?.(diagnostic) ??
+      new PersonalDictionaryStore(personalDictionaryPath(), {
+        onDiagnostic: diagnostic,
+      });
+    runtime = new HybridPredictor(model, dictionary, diagnostic);
     controller = new GhostController(
       runtime,
       () => {
@@ -170,6 +189,12 @@ export default function ghostAutocomplete(
     lease.timer.unref();
     // Prepare in the background as soon as this session owns the editor.
     void runtime.ready().catch(fail);
+    void dictionary
+      .load()
+      .then(() => {
+        if (owns()) repaint();
+      })
+      .catch(() => {});
   }
   pi.on("session_start", async (_event, ctx) => {
     if (context) await stop(context);
@@ -200,15 +225,47 @@ export default function ghostAutocomplete(
     return { action: "continue" };
   });
   pi.registerCommand("ghost", {
-    description: "Ghost word completion: on | off | status | retry",
+    description:
+      "Ghost word completion: on | off | status | retry | dictionary clear",
     handler: async (args, ctx) => {
       const action = args.trim() || "status";
       if (action === "status") {
-        ctx.ui.notify(`Ghost: ${enabled ? status : "off"}`, "info");
+        const model =
+          runtime?.modelStatus === "loading" ? status : runtime?.modelStatus;
+        ctx.ui.notify(
+          `Ghost: ${enabled && runtime ? `dictionary ${runtime.dictionaryStatus}; model ${model}` : "off"}`,
+          "info",
+        );
+        return;
+      }
+      if (action === "dictionary clear") {
+        try {
+          if (runtime) await runtime.clearDictionary();
+          else {
+            const dictionary =
+              services.createDictionary?.((m) => ctx.ui.notify(m, "warning")) ??
+              new PersonalDictionaryStore(personalDictionaryPath());
+            try {
+              await dictionary.clear();
+            } finally {
+              await dictionary.close();
+            }
+          }
+          controller?.reset();
+          ctx.ui.notify("Ghost personal dictionary cleared", "info");
+        } catch (error) {
+          ctx.ui.notify(
+            `Ghost dictionary clear failed: ${String(error)}`,
+            "warning",
+          );
+        }
         return;
       }
       if (!["on", "off", "retry"].includes(action)) {
-        ctx.ui.notify("Usage: /ghost on|off|status|retry", "warning");
+        ctx.ui.notify(
+          "Usage: /ghost on|off|status|retry|dictionary clear",
+          "warning",
+        );
         return;
       }
       await stop(ctx);

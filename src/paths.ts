@@ -15,3 +15,10 @@ export function stateDirectory(session: string): string {
     hash,
   );
 }
+export function personalDictionaryPath(): string {
+  return join(
+    process.env.PI_GHOST_STATE_DIR || join(getAgentDir(), "ghost-autocomplete"),
+    "dictionary",
+    "personal-v1.json",
+  );
+}

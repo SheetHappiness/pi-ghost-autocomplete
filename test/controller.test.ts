@@ -32,7 +32,14 @@ function setup() {
   };
   let updates = 0;
   const controller = new GhostController(backend, () => updates++);
-  return { controller, calls, replies, feedback, updates: () => updates };
+  return {
+    controller,
+    backend,
+    calls,
+    replies,
+    feedback,
+    updates: () => updates,
+  };
 }
 test("one active plus newest queued, duplicate frames do not duplicate work", async () => {
   const f = setup();
@@ -138,4 +145,51 @@ test("newest snapshot returning to active request clears obsolete queued work", 
   f.replies.shift()!({ suffix: "llo", confidence: 1 });
   await tick();
   assert.deepEqual(f.calls, ["he"]);
+});
+
+test("fast dictionary hit bypasses active LLM and survives late results and Escape", async () => {
+  const f = setup();
+  // The real controller receives a synchronous local source and a deferred model boundary.
+  const predictor = f.backend;
+  predictor.fastComplete = (_before, prefix) =>
+    prefix === "becau" ? { suffix: "se", confidence: 1 } : undefined;
+  f.controller.update(snap("hel"), { before: "", prefix: "hel" });
+  f.controller.update(snap("becau"), { before: "", prefix: "becau" });
+  assert.equal(f.controller.visible(snap("becau")), "se");
+  assert.deepEqual(f.calls, ["hel"]);
+  f.replies.shift()!({ suffix: "lo", confidence: 1 });
+  await tick();
+  assert.equal(f.controller.visible(snap("becau")), "se");
+  f.controller.dismiss(snap("becau"));
+  f.controller.update(snap("becau"), { before: "", prefix: "becau" });
+  assert.equal(f.controller.visible(snap("becau")), null);
+  assert.deepEqual(f.feedback, [false]);
+});
+
+test("dictionary ready after an in-flight miss wins for the same snapshot", async () => {
+  const f = setup();
+  const predictor = f.backend;
+  f.controller.update(snap("becau"), { before: "", prefix: "becau" });
+  predictor.fastComplete = () => ({ suffix: "se", confidence: 1 });
+  f.controller.update(snap("becau"), { before: "", prefix: "becau" });
+  assert.equal(f.controller.visible(snap("becau")), "se");
+  f.replies.shift()!({ suffix: "wrong", confidence: 1 });
+  await tick();
+  assert.equal(f.controller.visible(snap("becau")), "se");
+  f.controller.accepted(snap("becau"));
+  f.controller.accepted(snap("becau"));
+  assert.deepEqual(f.feedback, [true]);
+});
+
+test("fast source cannot bypass suffix validation", () => {
+  for (const result of [
+    { suffix: "\x1b[31m", confidence: 1 },
+    { suffix: "two words", confidence: 1 },
+    { suffix: "ok", confidence: NaN },
+  ]) {
+    const f = setup();
+    f.backend.fastComplete = () => result;
+    f.controller.update(snap(), { before: "", prefix: "hel" });
+    assert.equal(f.controller.visible(snap()), null);
+  }
 });

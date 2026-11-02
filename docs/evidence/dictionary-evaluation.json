@@ -1,0 +1,158 @@
+{
+  "provenance": "Original synthetic prose written for this plugin; no private prompts or third-party corpus. Sentences are fixed before threshold evaluation. Precision is a regression measure on this small fixture, not a population estimate.",
+  "runtime": "v22.23.3",
+  "platform": "win32/x64",
+  "cpu": "AMD Ryzen 7 7700 8-Core Processor              ",
+  "tuning": {
+    "occurrences": 184,
+    "queries": 890,
+    "hits": 154,
+    "correct": 147,
+    "precision": 0.9545454545454546,
+    "coverage": 0.17303370786516853,
+    "fallbackFraction": 0.8269662921348315,
+    "simulatedSavedKeystrokes": 149,
+    "errors": [
+      {
+        "prefix": "remembe",
+        "expected": "remembers",
+        "actual": "remember"
+      },
+      {
+        "prefix": "summariz",
+        "expected": "summarize",
+        "actual": "summarized"
+      },
+      {
+        "prefix": "asy",
+        "expected": "asynchronous",
+        "actual": "asylum"
+      },
+      {
+        "prefix": "atomi",
+        "expected": "atomically",
+        "actual": "atomic"
+      },
+      {
+        "prefix": "capitaliz",
+        "expected": "capitalization",
+        "actual": "capitalize"
+      },
+      {
+        "prefix": "unic",
+        "expected": "unicode",
+        "actual": "unicorn"
+      },
+      {
+        "prefix": "unico",
+        "expected": "unicode",
+        "actual": "unicorn"
+      }
+    ]
+  },
+  "evaluation": {
+    "occurrences": 459,
+    "queries": 2014,
+    "hits": 333,
+    "correct": 317,
+    "precision": 0.9519519519519519,
+    "coverage": 0.16534260178748758,
+    "fallbackFraction": 0.8346573982125124,
+    "simulatedSavedKeystrokes": 318,
+    "errors": [
+      {
+        "prefix": "seria",
+        "expected": "serialized",
+        "actual": "serial"
+      },
+      {
+        "prefix": "completio",
+        "expected": "completions",
+        "actual": "completion"
+      },
+      {
+        "prefix": "contex",
+        "expected": "contextual",
+        "actual": "context"
+      },
+      {
+        "prefix": "shortcu",
+        "expected": "shortcuts",
+        "actual": "shortcut"
+      },
+      {
+        "prefix": "suppresse",
+        "expected": "suppresses",
+        "actual": "suppressed"
+      },
+      {
+        "prefix": "readi",
+        "expected": "readiness",
+        "actual": "reading"
+      },
+      {
+        "prefix": "readin",
+        "expected": "readiness",
+        "actual": "reading"
+      },
+      {
+        "prefix": "avai",
+        "expected": "availability",
+        "actual": "available"
+      },
+      {
+        "prefix": "availa",
+        "expected": "availability",
+        "actual": "available"
+      },
+      {
+        "prefix": "availab",
+        "expected": "availability",
+        "actual": "available"
+      },
+      {
+        "prefix": "determini",
+        "expected": "deterministic",
+        "actual": "determining"
+      },
+      {
+        "prefix": "unic",
+        "expected": "unicode",
+        "actual": "unicorn"
+      },
+      {
+        "prefix": "unico",
+        "expected": "unicode",
+        "actual": "unicorn"
+      },
+      {
+        "prefix": "throu",
+        "expected": "throughout",
+        "actual": "through"
+      },
+      {
+        "prefix": "throug",
+        "expected": "throughout",
+        "actual": "through"
+      },
+      {
+        "prefix": "contex",
+        "expected": "contextual",
+        "actual": "context"
+      }
+    ]
+  },
+  "lookup": {
+    "commonWords": 20000,
+    "personalWords": 20000,
+    "warmup": 1000,
+    "queries": 10000,
+    "p50Ms": 0.001099999999951251,
+    "p95Ms": 3.7117000000002918
+  },
+  "gates": {
+    "precision": true,
+    "latency": true,
+    "minimumOccurrences": true
+  }
+}

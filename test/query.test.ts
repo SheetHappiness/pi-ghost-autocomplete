@@ -66,3 +66,6 @@ test("precomputed editor text still detects a paste marker", () => {
   };
   assert.equal(queryFor(lines, 1, 5, "[paste #1]\nhello"), undefined);
 });
+test("curly apostrophes remain part of a prose completion prefix", () => {
+  assert.deepEqual(queryFor(["don’"], 0, 4), { before: "", prefix: "don’" });
+});

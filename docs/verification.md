@@ -47,3 +47,37 @@ Startup preload follow-up, 2026-10-22: interactive session_start now calls runti
 Footer follow-up: removed visible ghost status writes during startup, readiness and failure; /ghost status retains model state. Regression tests first failed on visible footer entries, then passed. 39 tests passed, 2 opt-in skipped; typecheck and package inspection passed. Updated parent archive installed in the persistent Windows profile.
 
 GitHub source preparation, 2026-10-22: README now documents building and installing from source; npm native packages remain unpublished. Evidence logs mask the local Windows account name. Full Windows TS suite with native/model opt-ins: 41/41; Rust: 28/28; clippy, rustfmt, typecheck, package inspection and actual Pi installation smoke passed. Local archives remain excluded from Git; CI builds package artifacts.
+# Dictionary iteration — 2026-10-28
+
+New checks are recorded here independently of earlier release evidence. No new
+release, cross-platform CI run or human-operated terminal check is claimed.
+
+- Baseline on Windows/Node 22.23.3: 44 passed, 2 optional native/model tests skipped.
+  Restricted-sandbox localhost/rename failures disappear with normal test access.
+- Final full suite with the existing Windows addon and verified cached model:
+  **71 passed, 0 failed, 0 skipped**. `npm run check` passed. Package manifest
+  checks passed; a freshly packed tarball loaded its dictionary in a temporary
+  directory without project node_modules. Host editor acceptance is exercised
+  through Pi's real editor classes with an inert terminal.
+- `node --experimental-strip-types scripts/evaluate-dictionary.mjs`: original
+  synthetic prose, sentence-separated tuning/evaluation; personal learning only
+  from preceding sentences. Evaluation: 459 word occurrences, 2,014 prefix
+  queries, 333 hits, 317 exact completions (95.20% precision, 16.53% coverage).
+  Simulated saved keystrokes: 318; these are not observed user savings.
+  Initial policy passes unchanged; the fixture is small and not representative
+  enough to establish general accuracy. Errors include singular/plural variants
+  and unfamiliar technical words; LLM remains the fallback for abstentions.
+- AMD Ryzen 7 7700, 20k common +20k personal entries, 1k warm-up +10k lookups:
+  p95 3.71 ms including prefixes matching all 20k personal entries. Initial
+  string-key pair lookups measured 6.88 ms; indexing acceptances by prefix
+  removed that allocation. Timings vary by hardware and load.
+- `scripts/verify-dictionary-model.mjs` with the existing cached verified model
+  and Windows addon: dictionary loaded in 15.4 ms; `becau→because` completed in
+  1.95 ms while model status was loading, with zero model.complete calls.
+  Model ready after 195.5 ms; ambiguous `complet` invoked the real model once,
+  returning `e` in 125.1 ms, without warnings. Unlike a synthetic ambiguous
+  fixture, real `implementa` is dictionary-confident under current frequencies.
+
+Re-run timing checks locally rather than treating these numbers as guarantees.
+Real-model command requires `PI_GHOST_CACHE_DIR` pointing at a verified cache
+and a resolved native package or `PI_GHOST_NATIVE_PATH` pointing at the addon.

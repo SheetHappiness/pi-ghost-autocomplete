@@ -43,7 +43,7 @@ export function queryFor(
   if (line === undefined || col !== line.length) return;
   const fullText = editorText ?? lines.join("\n");
   if (fullText.includes("[paste #")) return;
-  const match = /[\p{L}\p{M}']+$/u.exec(line);
+  const match = /[\p{L}\p{M}'’]+$/u.exec(line);
   if (!match || [...match[0]].filter((c) => /\p{L}/u.test(c)).length < 2)
     return;
   const start = col - match[0].length;

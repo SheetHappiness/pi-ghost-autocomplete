@@ -27,3 +27,18 @@ test("redistributed source and binary attribution exists", () => {
   assert.match(notice, /Can Bölük/);
   assert.match(notice, /Stencil/);
 });
+
+test("packaged common dictionary has real frequencies and provenance", () => {
+  const words = JSON.parse(
+    readFileSync(new URL("src/dictionary/common-en.json", root), "utf8"),
+  ) as [string, number][];
+  assert.equal(words.length, 20000);
+  assert.ok(words.some(([word, f]) => word === "because" && f >= 1e-6));
+  for (const path of [
+    "src/dictionary/PROVENANCE.md",
+    "src/dictionary/provenance.json",
+    "licenses/wordfreq-NOTICE.md",
+    "licenses/wordfreq-CC-BY-SA-4.0.txt",
+  ])
+    assert.ok(existsSync(new URL(path, root)), path);
+});

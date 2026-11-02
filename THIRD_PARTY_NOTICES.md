@@ -12,3 +12,11 @@ and their content digests are retained in licenses/model-provenance.json.
 Platform packages contain the Rust dependency inventory and corresponding license
 files under licenses/rust/. Pi is a host-provided peer and is not redistributed
 inside this package. Native source is in native/ in the source distribution.
+
+# English frequency dictionary
+
+The adapted `src/dictionary/common-en.json` asset comes from wordfreq 3.1.1
+by Robyn Speer and is licensed CC BY-SA 4.0. See
+`src/dictionary/PROVENANCE.md`, `src/dictionary/provenance.json`,
+`licenses/wordfreq-NOTICE.md`, and `licenses/wordfreq-CC-BY-SA-4.0.txt`.
+This data license is separate from the plugin code license.

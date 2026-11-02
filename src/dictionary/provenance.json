@@ -1,0 +1,11 @@
+{
+  "source": "https://pypi.org/project/wordfreq/3.1.1/",
+  "author": "Robyn Speer",
+  "version": "3.1.1",
+  "wheelSha256": "4b1c6ecffc6198be3396d5cf871c4423ca71c907c231348d352dd54d62b97473",
+  "input": "wordfreq/data/large_en.msgpack.gz",
+  "inputSha256": "dffae8066b78dce0a6667cf5f58e567054f902674667090a7ac8a8a44628b05c",
+  "outputSha256": "9c20fa7fc8571b2375c2856c16f0c58c5fb5d5671ed0752d400741e56c32af4e",
+  "words": 20000,
+  "license": "CC-BY-SA-4.0"
+}

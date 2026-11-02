@@ -3,7 +3,17 @@ import type {
   Snapshot,
   Query,
   CompletionController,
+  Suggestion,
 } from "./types.ts";
+
+const validSuffix = (result: Suggestion | null | undefined): string | null =>
+  result &&
+  Number.isFinite(result.confidence) &&
+  result.confidence >= 0.15 &&
+  result.suffix.length <= 128 &&
+  /^[\p{L}\p{M}'’]+$/u.test(result.suffix)
+    ? result.suffix
+    : null;
 
 const key = (snapshot: Snapshot): string =>
   `${snapshot.text.length}:${snapshot.text}${snapshot.line}:${snapshot.col}:${snapshot.session.length}:${snapshot.session}`;
@@ -60,7 +70,21 @@ export class GhostController implements CompletionController {
       query,
       generation: this.generation,
     };
-    if (snapshotKey === this.dismissed || this.cache.has(snapshotKey)) {
+    if (snapshotKey === this.dismissed) {
+      this.queued = undefined;
+      return;
+    }
+    const fast = validSuffix(
+      this.predictor.fastComplete?.(query.before, query.prefix),
+    );
+    if (fast) {
+      this.cache.set(snapshotKey, fast);
+      if (this.cache.size > 256)
+        this.cache.delete(this.cache.keys().next().value!);
+      this.queued = undefined;
+      return;
+    }
+    if (this.cache.has(snapshotKey)) {
       this.queued = undefined;
       return;
     }
@@ -83,14 +107,9 @@ export class GhostController implements CompletionController {
           request.key === this.dismissed
         )
           return;
-        const suffix =
-          result &&
-          Number.isFinite(result.confidence) &&
-          result.confidence >= 0.15 &&
-          result.suffix.length <= 128 &&
-          /^[\p{L}\p{M}']+$/u.test(result.suffix)
-            ? result.suffix
-            : null;
+        // A local answer may have arrived while this model request was running.
+        if (this.cache.has(request.key)) return;
+        const suffix = validSuffix(result);
         this.cache.set(request.key, suffix);
         if (this.cache.size > 256)
           this.cache.delete(this.cache.keys().next().value!);
