@@ -14,7 +14,7 @@
 
 <br>
 
-<img src="./assets/32.gif" alt="pi-autocomplete demo" width="900">
+<img src="./assets/32.gif" alt="pi-autocomplete demo" width="1000">
 
 </div>
 
