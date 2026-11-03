@@ -28,11 +28,11 @@ Press **`Esc`** to dismiss it.
 
 <div align="center">
 
-![pi-autocomplete demo](./assets/32.gif)
+<img src="./assets/32.gif" alt="pi-autocomplete demo" width="100%">
 
 </div>
 
-_The goal is simple: make repetitive typing in Pi a little faster without changing how the editor normally works._
+The goal is simple: make repetitive typing in Pi a little faster without changing how the editor normally works.
 
 ## Install
 
