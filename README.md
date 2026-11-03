@@ -40,7 +40,7 @@ The goal is simple: make repetitive typing in Pi a little faster without changin
 pi install npm:pi-autocomplete
 ```
 
-No Rust toolchain is needed for normal installation.
+#### No Rust toolchain is needed for normal installation.
 
 ## ⚙️ How it works
 
@@ -68,7 +68,7 @@ The model is prepared in the background when an interactive Pi session starts.
 
 ## 🧠 Personal dictionary
 
-The plugin can learn vocabulary from the prose you submit and from suggestions you accept.
+#### The plugin can learn vocabulary from the prose you submit and from suggestions you accept.
 
 Ranking takes into account:
 
@@ -77,7 +77,7 @@ Ranking takes into account:
 - how recently you used the word
 - previous acceptances for the same prefix
 
-The personal dictionary is stored locally and shared between Pi sessions.
+#### The personal dictionary is stored locally and shared between Pi sessions.
 
 Repeated words inside one submitted prompt count once.
 
@@ -100,7 +100,7 @@ To clear the learned dictionary:
 
 Pi's own slash commands and file completion keep priority.
 
-Suggestions that cannot fit correctly in the available terminal width are hidden instead of forcing broken rendering.
+#### Suggestions that cannot fit correctly in the available terminal width are hidden instead of forcing broken rendering.
 
 ## 🛠️ Commands
 
@@ -118,7 +118,7 @@ Suggestions that cannot fit correctly in the available terminal width are hidden
 
 ## 🛰️ Local model
 
-The fallback model is [SmolLM2-135M](https://huggingface.co/HuggingFaceTB/SmolLM2-135M).
+#### The fallback model is [SmolLM2-135M](https://huggingface.co/HuggingFaceTB/SmolLM2-135M).
 
 It runs through a native Rust predictor on a dedicated thread.
 
@@ -126,7 +126,7 @@ Model files are downloaded on first use, verified, and cached locally.
 
 Prompt text is not sent to an external model service.
 
-The dictionary remains usable while the model is loading or if the native predictor fails.
+#### The dictionary remains usable while the model is loading or if the native predictor fails.
 
 ## 💻 Platforms
 
@@ -171,4 +171,4 @@ Full third-party attribution and licenses are available in [`THIRD_PARTY_NOTICES
 
 ## 📄 License
 
-MIT
+#### MIT
