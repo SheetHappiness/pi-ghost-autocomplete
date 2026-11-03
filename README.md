@@ -13,6 +13,7 @@
 [![License](https://img.shields.io/github/license/SheetHappiness/pi-ghost-autocomplete?style=flat)](LICENSE)
 
 <br>
+</div>
 
 ## What does it do?
 
@@ -29,7 +30,6 @@ It uses a local dictionary for obvious completions and falls back to a small loc
 
 ![pi-autocomplete demo](./assets/32.gif)
 
-</div>
 
 
 The goal is simple: make repetitive typing in Pi a little faster without changing how the editor normally works.
