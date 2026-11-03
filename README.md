@@ -159,15 +159,13 @@ Release and packaging details are documented in [`docs/releasing.md`](docs/relea
 
 ## 🙏 Credits
 
-#### Some of the prose detection, completion logic and native predictor code was adapted from [Oh My Pi](https://github.com/can1357/oh-my-pi).
+## 🙏 Credits
 
-The exact upstream commit and file-level changes are documented in [`vendor/omp/PROVENANCE.md`](vendor/omp/PROVENANCE.md).
+#### Parts of the completion and predictor logic are adapted from [Oh My Pi](https://github.com/can1357/oh-my-pi).
 
-The fallback model is [SmolLM2-135M](https://huggingface.co/HuggingFaceTB/SmolLM2-135M) by Hugging Face.
+#### The fallback model is [SmolLM2-135M](https://huggingface.co/HuggingFaceTB/SmolLM2-135M), and the bundled English dictionary is based on [wordfreq](https://github.com/rspeer/wordfreq).
 
-The bundled English frequency dictionary is derived from [wordfreq](https://github.com/rspeer/wordfreq) by Robyn Speer.
-
-Full third-party attribution and licenses are available in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+#### See [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) for full attribution and license details.
 
 ## 📄 License
 
