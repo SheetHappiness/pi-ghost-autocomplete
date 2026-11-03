@@ -26,11 +26,11 @@ Press **`Esc`** to dismiss it.
 
 It uses a local dictionary for obvious completions and falls back to a small local language model when the prefix is ambiguous.
 
-
+<br>
 
 ![pi-autocomplete demo](./assets/32.gif)
 
-
+</div>
 
 The goal is simple: make repetitive typing in Pi a little faster without changing how the editor normally works.
 
