@@ -15,7 +15,7 @@
 <br>
 </div>
 
-## What does it do?
+## 👻 What does it do?
 
 `pi-autocomplete` adds **inline ghost-text completion** to Pi's prompt editor.
 
@@ -34,7 +34,7 @@ Press **`Esc`** to dismiss it.
 
 The goal is simple: make repetitive typing in Pi a little faster without changing how the editor normally works.
 
-## Install
+## 📦 Install
 
 ```sh
 pi install npm:pi-autocomplete
@@ -42,7 +42,7 @@ pi install npm:pi-autocomplete
 
 No Rust toolchain is needed for normal installation.
 
-## How it works
+## ⚙️ How it works
 
 The completion path is roughly:
 
@@ -66,7 +66,7 @@ If the prefix is ambiguous, it falls back to **SmolLM2-135M** running locally on
 
 The model is prepared in the background when an interactive Pi session starts.
 
-## Personal dictionary
+## 🧠 Personal dictionary
 
 The plugin can learn vocabulary from the prose you submit and from suggestions you accept.
 
@@ -89,7 +89,7 @@ To clear the learned dictionary:
 /ghost dictionary clear
 ```
 
-## Controls
+## ⌨️ Controls
 
 | Key | Action |
 |---|---|
@@ -102,7 +102,7 @@ Pi's own slash commands and file completion keep priority.
 
 Suggestions that cannot fit correctly in the available terminal width are hidden instead of forcing broken rendering.
 
-## Commands
+## 🛠️ Commands
 
 ```text
 /ghost on
@@ -116,7 +116,7 @@ Suggestions that cannot fit correctly in the available terminal width are hidden
 
 `/ghost retry` retries predictor initialization after a failure.
 
-## Local model
+## 🛰️ Local model
 
 The fallback model is [SmolLM2-135M](https://huggingface.co/HuggingFaceTB/SmolLM2-135M).
 
@@ -128,7 +128,7 @@ Prompt text is not sent to an external model service.
 
 The dictionary remains usable while the model is loading or if the native predictor fails.
 
-## Platforms
+## 💻 Platforms
 
 Prebuilt native packages are available for:
 
@@ -137,7 +137,7 @@ Prebuilt native packages are available for:
 - Linux ARM64
 - macOS ARM64
 
-## Stack
+## 🧩 Stack
 
 **Pi** · **TypeScript** · **Rust** · **SmolLM2-135M** · **Node.js**
 
@@ -145,7 +145,7 @@ The Pi extension, editor integration and completion orchestration are written in
 
 The local predictor is implemented as a native Rust module.
 
-## Development
+## 🧪 Development
 
 ```sh
 npm ci --ignore-scripts
@@ -157,7 +157,7 @@ Native development additionally requires Rust.
 
 Release and packaging details are documented in [`docs/releasing.md`](docs/releasing.md).
 
-## Credits
+## 🙏 Credits
 
 Some of the prose detection, completion logic and native predictor code was adapted from [Oh My Pi](https://github.com/can1357/oh-my-pi).
 
@@ -169,8 +169,6 @@ The bundled English frequency dictionary is derived from [wordfreq](https://gith
 
 Full third-party attribution and licenses are available in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
 
-## License
+## 📄 License
 
 MIT
-
-🙂
