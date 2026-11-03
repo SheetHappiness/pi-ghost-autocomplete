@@ -12,6 +12,7 @@
 [![Node](https://img.shields.io/badge/Node.js-%E2%89%A522.19-339933?style=flat&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![License](https://img.shields.io/github/license/SheetHappiness/pi-ghost-autocomplete?style=flat)](LICENSE)
 
+<br>
 
 ## What does it do?
 
@@ -24,7 +25,7 @@ Press **`Esc`** to dismiss it.
 
 It uses a local dictionary for obvious completions and falls back to a small local language model when the prefix is ambiguous.
 
-<br>
+
 
 ![pi-autocomplete demo](./assets/32.gif)
 
