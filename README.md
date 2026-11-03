@@ -159,7 +159,7 @@ Release and packaging details are documented in [`docs/releasing.md`](docs/relea
 
 ## 🙏 Credits
 
-Some of the prose detection, completion logic and native predictor code was adapted from [Oh My Pi](https://github.com/can1357/oh-my-pi).
+#### Some of the prose detection, completion logic and native predictor code was adapted from [Oh My Pi](https://github.com/can1357/oh-my-pi).
 
 The exact upstream commit and file-level changes are documented in [`vendor/omp/PROVENANCE.md`](vendor/omp/PROVENANCE.md).
 
