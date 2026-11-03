@@ -32,7 +32,7 @@ Press **`Esc`** to dismiss it.
 
 </div>
 
-#### The goal is simple: make repetitive typing in Pi a little faster without changing how the editor normally works.
+_The goal is simple: make repetitive typing in Pi a little faster without changing how the editor normally works._
 
 ## Install
 
