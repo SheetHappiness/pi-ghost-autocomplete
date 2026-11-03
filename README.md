@@ -159,13 +159,11 @@ Release and packaging details are documented in [`docs/releasing.md`](docs/relea
 
 ## 🙏 Credits
 
-## 🙏 Credits
+Parts of the completion and predictor logic are adapted from [Oh My Pi](https://github.com/can1357/oh-my-pi).
 
-#### Parts of the completion and predictor logic are adapted from [Oh My Pi](https://github.com/can1357/oh-my-pi).
+The fallback model is [SmolLM2-135M](https://huggingface.co/HuggingFaceTB/SmolLM2-135M), and the bundled English dictionary is based on [wordfreq](https://github.com/rspeer/wordfreq).
 
-#### The fallback model is [SmolLM2-135M](https://huggingface.co/HuggingFaceTB/SmolLM2-135M), and the bundled English dictionary is based on [wordfreq](https://github.com/rspeer/wordfreq).
-
-#### See [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) for full attribution and license details.
+See [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) for full attribution and license details.
 
 ## 📄 License
 
