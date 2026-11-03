@@ -12,7 +12,6 @@
 [![Node](https://img.shields.io/badge/Node.js-%E2%89%A522.19-339933?style=flat&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![License](https://img.shields.io/github/license/SheetHappiness/pi-ghost-autocomplete?style=flat)](LICENSE)
 
-<br>
 </div>
 
 ## 👻 What does it do?
