@@ -172,3 +172,5 @@ Full third-party attribution and licenses are available in [`THIRD_PARTY_NOTICES
 ## License
 
 MIT
+
+🙂
