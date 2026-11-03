@@ -167,4 +167,4 @@ See [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) for full attribution and 
 
 ## 📄 License
 
-#### MIT
+MIT
