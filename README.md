@@ -66,7 +66,7 @@ If the prefix is ambiguous, it falls back to **SmolLM2-135M** running locally on
 
 The model is prepared in the background when an interactive Pi session starts.
 
-## 🧠 Personal dictionary
+## 📖 Personal dictionary
 
 #### The plugin can learn vocabulary from the prose you submit and from suggestions you accept.
 
