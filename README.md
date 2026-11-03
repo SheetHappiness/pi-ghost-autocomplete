@@ -128,7 +128,7 @@ Prompt text is not sent to an external model service.
 
 #### The dictionary remains usable while the model is loading or if the native predictor fails.
 
-## 💻 Platforms
+## 💿 Platforms
 
 Prebuilt native packages are available for:
 
@@ -145,7 +145,7 @@ The Pi extension, editor integration and completion orchestration are written in
 
 The local predictor is implemented as a native Rust module.
 
-## 🧪 Development
+## 🛠️ Development
 
 ```sh
 npm ci --ignore-scripts
